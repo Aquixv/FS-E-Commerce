@@ -76,14 +76,16 @@
 }
 
 .primary-btn:hover { background: #000; transform: translateY(-3px); }
-@media (max-width: 768px) {
+
+@media (max-width: 800px) {
   .badge{
   margin-top: -100px !important;
   }
+
   .hero-container {
     flex-direction: column;
     padding: 0;
-    min-height: 80vh;
+    min-height: 90vh;
     position: relative;
     justify-content: center;
   }

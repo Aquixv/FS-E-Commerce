@@ -31,6 +31,7 @@ const Hero = () => {
   const activeTheme = themes[current];
 
   return (
+    <>
     <section className="hero-container">
       <div 
         className="hero-accent-blob" 
@@ -58,6 +59,7 @@ const Hero = () => {
         />
       </div>
     </section>
+    </>
   );
 };
 

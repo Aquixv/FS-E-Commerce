@@ -12,7 +12,6 @@ text-decoration: none;
   align-items: center;
   margin-bottom: 30px;
 }
-
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -80,4 +79,28 @@ text-decoration: none;
 .add-to-cart-btn:hover {
   background: #222;
   color: white;
+}
+@media (max-width: 768px) {
+  .product-grid {
+    display: flex;
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding-bottom: 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .product-card {
+    min-width: 280px; 
+    scroll-snap-align: start;
+  }
+  .section-header h2{
+font-size: 14px;
+font-weight: 800;
+}
+.view-all{
+color: #222;
+font-size: small;
+text-decoration: none;
+}
 }
