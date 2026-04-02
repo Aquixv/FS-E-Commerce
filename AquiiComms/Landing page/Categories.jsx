@@ -16,7 +16,7 @@ const CategoryList = () => (
     <div className="category-grid">
       {categories.map((cat) => (
   <div 
-    key={cat.id} // Fixed: unique key prop
+    key={cat.id} 
     className="category-card" 
     style={{ backgroundImage: `url(${cat.img})` }} 
   >

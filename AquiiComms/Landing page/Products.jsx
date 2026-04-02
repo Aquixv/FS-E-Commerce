@@ -2,28 +2,32 @@ import React, { useEffect, useState } from 'react';
 import './Products.css';
 import ProductCard from './Productcard';
 
-const ProductList = () => {
+const ProductList = ({ title, categoryName, limit = 8 }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    fetch('https://dummyjson.com/products?limit=8')
+    const url = categoryName 
+      ? `https://dummyjson.com/products/category/${categoryName}?limit=${limit}`
+      : `https://dummyjson.com/products?limit=${limit}`;
+
+    fetch(url)
       .then(res => res.json())
       .then(data => {
         setProducts(data.products);
         setLoading(false);
       })
       .catch(err => console.error("Fetch error:", err));
-  }, []);
+  }, [categoryName, limit]);
 
-  if (loading) return <div className="loader">Loading Top Deals...</div>;
+  if (loading) return <div className="loader">Loading {title}...</div>;
 
   return (
     <section className="product-section">
       <div className="section-header">
-        <h2>Today's Best Deals For You!</h2>
+        <h2>{title}</h2>
         <a href="#all" className="view-all">View All</a>
       </div>
-      
       <div className="product-grid">
         {products.map(product => (
           <ProductCard key={product.id} product={product} />
@@ -32,5 +36,4 @@ const ProductList = () => {
     </section>
   );
 };
-
 export default ProductList;
