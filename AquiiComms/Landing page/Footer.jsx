@@ -20,7 +20,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Links Sections */}
         <div className="footer-links">
           <div className="link-group">
             <h5>Department</h5>

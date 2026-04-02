@@ -9,12 +9,9 @@ const Header = () => {
   return (
     <header className="main-header">
   <div className="nav-container">
-    {/* 1. Logo Section */}
     <div className="logo-section">
       <img src={logo} alt="Popcart Logo" className="nav-logo" />
     </div>
-
-    {/* 2. Sidebar / Desktop Links */}
     <nav className={`nav-links ${isOpen ? 'active' : ''}`}>
       <div className="dropdown">
         <button className="dropbtn">Categories</button>
@@ -28,8 +25,6 @@ const Header = () => {
       <a className="menu" href="#deals">Deals</a>
       <a className="menu" href="#new">What's New?</a>
       <a className="menu" href="#Delivery">Delivery</a>
-
-      {/* MOBILE ONLY: Cart and Account in Sidebar */}
       <div className="side-actions">
         <button className="mobile-search-trigger" onClick={() => setIsSearchOpen(!isSearchOpen)}>
           🔍 Search
@@ -43,7 +38,6 @@ const Header = () => {
       </div>
     </nav>
 
-    {/* 3. Desktop Actions & Mobile Hamburger */}
     <div className="nav-actions">
       <div className="search-bar desktop-only">
         <input type="text" placeholder="Search products..." />
@@ -55,20 +49,17 @@ const Header = () => {
         👤 Account
       </button>
 
-      {/* Hamburger Toggle */}
       <button className="menu-toggle" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? '✕' : '☰'}
       </button>
     </div>
   </div>
 
-  {/* Search Dropdown Overlay (Mobile) */}
   <div className={`mobile-search-overlay ${isSearchOpen ? 'active' : ''}`}>
-    <input type="text" placeholder="Search products..." />
-    <button onClick={() => setIsSearchOpen(false)}>✕</button>
+    <input type="text"  placeholder="Search products..." />
+    <button  onClick={() => setIsSearchOpen(false)}>✕</button>
   </div>
   
-  {/* Backdrop to close sidebar when clicking outside */}
   <div className={`sidebar-backdrop ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(false)}></div>
 </header>
   );

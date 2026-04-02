@@ -143,11 +143,10 @@ height: 25px;
 .side-actions {
   display: none;
 }
-.mobile-search {
+.mobile-search-overlay {
   display: none;
-  padding: 10px 5%;
+
 }
-/* Helper class to hide desktop items on mobile */
 @media (max-width: 768px) {
   .desktop-only {
     display: none !important;
@@ -155,7 +154,7 @@ height: 25px;
 
   .nav-container {
     display: flex;
-    justify-content: space-between; /* Pushes Logo left, Hamburger right */
+    justify-content: space-between;
     align-items: center;
     padding: 0 20px;
     height: 80px;
@@ -166,7 +165,7 @@ height: 25px;
   }
 
   .logo-section img {
-    width: 120px; /* Set a fixed width so it doesn't overflow */
+    width: 120px;
     height: auto;
   }
 
@@ -176,14 +175,12 @@ height: 25px;
     cursor: pointer;
     background: none;
     border: none;
-    z-index: 2001; /* Keep above sidebar */
+    z-index: 2001;
   }
-
-  /* Sidebar Design */
   .nav-links {
     position: fixed;
     top: 0;
-    left: -300px; /* Start hidden off-screen */
+    left: -300px;
     width: 280px; 
     height: 100vh;
     background: white;
@@ -199,7 +196,6 @@ height: 25px;
     box-shadow: 4px 0 15px rgba(0,0,0,0.1);
   }
 
-  /* Sidebar Actions (Cart, Account, Search) */
   .side-actions {
     display: flex;
     flex-direction: column;
@@ -223,7 +219,6 @@ height: 25px;
     font-weight: 600;
   }
 
-  /* Search Overlay */
   .mobile-search-overlay {
     position: absolute;
     top: -100px;
@@ -241,7 +236,7 @@ height: 25px;
   }
 
   .mobile-search-overlay.active {
-    top: 80px; /* Drops down right below header */
+    top: 80px;
   }
 
   .mobile-search-overlay input {
@@ -252,7 +247,6 @@ height: 25px;
     margin-right: 10px;
   }
 
-  /* Clickable Backdrop */
   .sidebar-backdrop {
     position: fixed;
     top: 0;
