@@ -264,4 +264,22 @@ height: 25px;
     opacity: 1;
     pointer-events: all;
   }
+  .dropdown-content {
+  position: static !important;
+  box-shadow: none !important;
+  display: none;
+  flex-direction: column;
+  padding-left: 20px; 
+  margin-top: 10px;
+  border-left: 2px solid #eee;
+}
+
+.dropdown-content.show {
+  display: flex !important;
+}
+
+.dropdown-content a {
+  padding: 12px 0;
+  font-size: 1.1rem;
+}
 }

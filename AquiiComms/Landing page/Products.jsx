@@ -27,7 +27,7 @@ const ProductList = ({ title, categoryName, limit = 8 }) => {
     <section className="product-section">
       <div className="section-header">
         <h2>{title}</h2>
-        <Link to='/products/beauty' className="view-all">View All</Link>
+        <Link to='/products/all' className="view-all">View All</Link>
       </div>
       <div className="product-grid">
         {products.map(product => (
@@ -37,4 +37,5 @@ const ProductList = ({ title, categoryName, limit = 8 }) => {
     </section>
   );
 };
+
 export default ProductList;
