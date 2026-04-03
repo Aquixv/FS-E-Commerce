@@ -83,13 +83,20 @@ text-decoration: none;
 @media (max-width: 768px) {
   .product-grid {
     display: flex;
-    overflow-x: auto; 
+    overflow-x: scroll; 
     scroll-snap-type: x mandatory;
     gap: 20px;
     padding-bottom: 20px;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: scroll;
   }
-
+@media (max-width: 768px) {
+  .page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+    overflow-x: visible; 
+    gap: 15px;
+  }
+}
   .product-card {
     min-width: 280px; 
     scroll-snap-align: start;

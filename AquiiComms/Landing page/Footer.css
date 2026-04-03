@@ -16,7 +16,9 @@
   flex: 1;
   min-width: 250px;
 }
-
+.footer-divider{
+background-color: #666;
+}
 .footer-brand img {
   width: 150px; 
   height: auto;
@@ -30,11 +32,14 @@
   flex-wrap: wrap;
   gap: 20px;
 }
-
+.footer-divider{
+  color: #666;
+}
 .link-group h5 {
   font-size: 1.1rem;
   margin-bottom: 15px;
-  font-weight: 700;
+  font-weight: 400;
+  color:#666;
 }
 
 .link-group ul {
@@ -51,7 +56,7 @@
 .payment-grid {
   display: flex;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .payment-card {
@@ -80,13 +85,21 @@
     gap: 20px;
     align-items: center;
     justify-content: center;
+    color: #666;
   }
   .legal-links{
     display: flex;
     flex-direction: row;
     gap: 20px;
-    justify-content: center;
+    justify-content: space-around;
+    bottom: 5vh;
   }
+    .payment-methods h4{
+  margin-top: 2vh;
+  color: #666;
+  font-weight: 500;
+  }
+
 @media (max-width: 768px) {
   .footer-links {
     display: grid;
@@ -104,6 +117,11 @@
     display: flex;
     flex-direction: row;
     gap: 20px;
-    justify-content: center;
+    justify-content: space-evenly;
+  }
+    .payment-methods h4{
+  margin-top: 5vh;
+  color: #666;
+  font-weight: 500;
   }
 }

@@ -1,26 +1,25 @@
-import { useState } from 'react'
-import React from 'react'
-import './App.css'
-import Hero from '../Landing page/Hero'
-import Header from '../Landing page/Navbar'
-import ProductList from '../Landing page/Products'
-import CategoryList from '../Landing page/Categories'
-import ServiceSection from '../Landing page/Servicesection'
-import Footer from '../Landing page/Footer'
-function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import CategoryPage from './CategoryPage';
+import Header from '../Landing page/Navbar';
+import Footer from '../Landing page/Footer';
 
+function App() {
   return (
-    <>
-    <Header></Header>
-    <Hero></Hero>
-    <CategoryList />
-    <ProductList title="Makeup and Skincare" limit={4} />
-<ProductList title="Trending Tech" categoryName="smartphones" limit={4} />
-<ProductList title="Summer Fashion" categoryName="tops" limit={4} />
-<ServiceSection/>
-<Footer/>
-    </>
-  )
+    <Router> 
+      <Header />
+      
+      <main style={{ minHeight: '80vh' }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/category/:categoryName" element={<CategoryPage />} />
+          <Route path="/products/all" element={<CategoryPage isAll={true} />} />
+        </Routes>
+      </main>
+
+      <Footer />
+    </Router>
+  );
 }
 
-export default App
+export default App;

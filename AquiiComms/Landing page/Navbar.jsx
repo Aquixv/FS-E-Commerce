@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../src/assets/default.png';
 import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -16,10 +17,10 @@ const Header = () => {
       <div className="dropdown">
         <button className="dropbtn">Categories</button>
         <div className="dropdown-content">
-          <a href="#">Electronics</a>
-          <a href="#">Jewelry</a>
-          <a href="#">Men's Clothing</a>
-          <a href="#">Women's Clothing</a>
+          <Link to= '/category/Electronics'>Electronics</Link>
+          <Link to='/category/Jewelry'>Jewelry</Link>
+          <Link to='/category/Mens-clothing'>Men's Clothing</Link>
+          <Link to='/category/womens-clothing'>Women's Clothing</Link>
         </div>
       </div>
       <a className="menu" href="#deals">Deals</a>

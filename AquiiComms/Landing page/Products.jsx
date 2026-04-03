@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Products.css';
 import ProductCard from './Productcard';
+import { Link } from 'react-router-dom';
 
 const ProductList = ({ title, categoryName, limit = 8 }) => {
   const [products, setProducts] = useState([]);
@@ -26,7 +27,7 @@ const ProductList = ({ title, categoryName, limit = 8 }) => {
     <section className="product-section">
       <div className="section-header">
         <h2>{title}</h2>
-        <a href="#all" className="view-all">View All</a>
+        <Link to='/products/beauty' className="view-all">View All</Link>
       </div>
       <div className="product-grid">
         {products.map(product => (
