@@ -3,6 +3,7 @@ import Home from './Home';
 import CategoryPage from './CategoryPage';
 import Header from '../Landing page/Navbar';
 import Footer from '../Landing page/Footer';
+import ProductDetails from './Productdetails';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/category/:categoryName" element={<CategoryPage />} />
           <Route path="/products/all" element={<CategoryPage isAll={true} />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
       </main>
 

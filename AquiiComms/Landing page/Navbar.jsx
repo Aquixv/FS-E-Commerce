@@ -52,7 +52,7 @@ const Header = () => {
 
     <div className="nav-actions">
       <div className="search-bar desktop-only">
-        <input type="text" placeholder="Search products..." />
+        <input type="text" placeholder="Search for products..." />
       </div>
       <button className="cart-icon desktop-only">
         🛒 <span className="cart-count">0</span>
@@ -68,7 +68,7 @@ const Header = () => {
   </div>
 
   <div className={`mobile-search-overlay ${isSearchOpen ? 'active' : ''}`}>
-    <input type="text"  placeholder="Search products..." />
+    <input type="text"  placeholder="Search for products..." />
     <button  onClick={() => setIsSearchOpen(false)}>✕</button>
   </div>
   

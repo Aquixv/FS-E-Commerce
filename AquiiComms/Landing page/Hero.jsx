@@ -11,11 +11,18 @@ const Hero = () => {
       accent: "#FFD700"
     },
     {
-      title: "Summer Collection",
+      title: "Summer Collection 2026",
       subtitle: "Elevate Your Summer Style",
       description: "New arrivals in sustainable fashion.",
       image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=1000",
       accent: "#FF6B6B" 
+    },
+    {
+      title: "Winter Collection 2026",
+      subtitle: "Elevate Your Winter Style",
+      description: "Multiple arrivals to keep you toasty and stylish.",
+      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&q=80&auto=format&fit=crop",
+      accent: "#3182C0" 
     }
   ];
 
@@ -23,7 +30,7 @@ const Hero = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % themes.length);
+      setCurrent((prev) => (prev + 2) % themes.length);
     }, 10000);
     return () => clearInterval(timer);
   }, [themes.length]);
@@ -32,7 +39,7 @@ const Hero = () => {
 
   return (
     <>
-    <section className="hero-container">
+    <section style={{backgroundColor: activeTheme.accent}} className="hero-container">
       <div 
         className="hero-accent-blob" 
         style={{ backgroundColor: activeTheme.accent }}
