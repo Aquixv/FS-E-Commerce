@@ -1,10 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import './Products.css';
 import { Link } from 'react-router-dom';
+import { useCart } from '../src/CartContext';
+
 const ProductCard = ({ product }) => {
 
   const [isFavorite, setIsFavorite] = useState(false);
+const { incrementCart } = useCart();
+const handleAddToCart = (e) => {
+  if (window.innerWidth <= 768) {
+    incrementCart();
+    return;
+  }
+    e.preventDefault();
+    e.stopPropagation(); 
 
+    const card = e.target.closest('.product-card');
+    const img = card.querySelector('img');
+    const cartIcon = document.querySelector('.nav-actions .cart-icon');
+
+    if (!img || !cartIcon) {
+      incrementCart();
+      return;
+    }
+
+    const imgRect = img.getBoundingClientRect();
+    const cartRect = cartIcon.getBoundingClientRect();
+
+    const flyingImg = document.createElement('img');
+    flyingImg.src = product.thumbnail;
+    flyingImg.style.position = 'fixed';
+    flyingImg.style.left = `${imgRect.left}px`;
+    flyingImg.style.top = `${imgRect.top}px`;
+    flyingImg.style.width = `${imgRect.width}px`;
+    flyingImg.style.height = `${imgRect.height}px`;
+    flyingImg.style.borderRadius = '50%'; 
+    flyingImg.style.objectFit = 'cover';
+    flyingImg.style.zIndex = '9999';
+    flyingImg.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+    
+    document.body.appendChild(flyingImg);
+
+    setTimeout(() => {
+      flyingImg.style.left = `${cartRect.left + 10}px`;
+      flyingImg.style.top = `${cartRect.top + 10}px`;
+      flyingImg.style.width = '20px';
+      flyingImg.style.height = '20px';
+      flyingImg.style.opacity = '0.2';
+    }, 10);
+
+    setTimeout(() => {
+      flyingImg.remove();
+      incrementCart();
+      
+      cartIcon.classList.add('pop-animation');
+      setTimeout(() => cartIcon.classList.remove('pop-animation'), 300);
+    }, 800);
+  };
   return (
     <div className="product-card">
       <div className="wishlist-icon" onClick={() => setIsFavorite(!isFavorite)}>
@@ -31,7 +83,7 @@ const ProductCard = ({ product }) => {
           {"⭐".repeat(Math.round(product.rating))} 
           <span>( {product.stock})</span>
         </div>
-        <button className="add-to-cart-btn">Add to Cart</button>
+       <button className="add-to-cart-btn" onClick={handleAddToCart}>Add to Cart</button>
       </div></Link>
     </div>
   );

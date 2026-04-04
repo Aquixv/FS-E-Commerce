@@ -3,6 +3,7 @@
 body {
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
+  padding-top: 80px;
 }
 
 h1, h2, h3 {
@@ -17,4 +18,8 @@ h1, h2, h3 {
 html, body {
   max-width: 100%;
   overflow-x: hidden; 
+}
+.pop-animation {
+  transform: scale(1.2);
+  transition: transform 0.1s ease-in-out;
 }

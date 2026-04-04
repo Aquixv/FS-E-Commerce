@@ -4,9 +4,10 @@ import CategoryPage from './CategoryPage';
 import Header from '../Landing page/Navbar';
 import Footer from '../Landing page/Footer';
 import ProductDetails from './Productdetails';
-
+import { CartProvider } from './CartContext';
 function App() {
   return (
+    <CartProvider>
     <Router> 
       <Header />
       
@@ -21,6 +22,7 @@ function App() {
 
       <Footer />
     </Router>
+    </CartProvider>
   );
 }
 

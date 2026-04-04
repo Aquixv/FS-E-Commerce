@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCart } from './CartContext';
 
 const ProductDetails = () => {
+  
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
+const { incrementCart } = useCart();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,6 +25,53 @@ const ProductDetails = () => {
 
   if (loading) return <div className="loader">Loading product...</div>;
   if (!product) return <div>Product not found!</div>;
+
+const handleAddToCart = (e) => {
+if (window.innerWidth <= 768) {
+    incrementCart();
+    return;
+  }
+    const container = e.target.closest('.product-details-container'); 
+    const img = container.querySelector('img');
+    const cartIcon = document.querySelector('.nav-actions .cart-icon');
+
+    if (!img || !cartIcon) {
+      incrementCart(); 
+      return;
+    }
+
+    const imgRect = img.getBoundingClientRect();
+    const cartRect = cartIcon.getBoundingClientRect();
+
+    const flyingImg = document.createElement('img');
+    flyingImg.src = product.thumbnail;
+    flyingImg.style.position = 'fixed';
+    flyingImg.style.left = `${imgRect.left}px`;
+    flyingImg.style.top = `${imgRect.top}px`;
+    flyingImg.style.width = `${imgRect.width}px`;
+    flyingImg.style.height = `${imgRect.height}px`;
+    flyingImg.style.borderRadius = '50%';
+    flyingImg.style.objectFit = 'cover';
+    flyingImg.style.zIndex = '9999';
+    flyingImg.style.transition = 'all 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+    
+    document.body.appendChild(flyingImg);
+
+    setTimeout(() => {
+      flyingImg.style.left = `${cartRect.left + 10}px`;
+      flyingImg.style.top = `${cartRect.top + 10}px`;
+      flyingImg.style.width = '20px';
+      flyingImg.style.height = '20px';
+      flyingImg.style.opacity = '0.2';
+    }, 10);
+  
+    setTimeout(() => {
+      flyingImg.remove();
+      incrementCart(); 
+      cartIcon.classList.add('pop-animation');
+      setTimeout(() => cartIcon.classList.remove('pop-animation'), 300);
+    }, 800);
+  };
 
   return (
     <div className="product-details-container" style={{ padding: '40px 5%', display: 'flex', gap: '40px' }}>
@@ -46,9 +97,7 @@ const ProductDetails = () => {
           {product.description}
         </p>
 
-        <button 
-          style={{ padding: '15px 40px', background: '#000', color: '#fff', borderRadius: '30px', fontSize: '1.1rem', cursor: 'pointer' }}
-        >
+       <button className="add-to-cart-btn" onClick={handleAddToCart}>
           Add to Cart
         </button>
 <div className="product-reviews" style={{ marginTop: '50px', borderTop: '1px solid #eee', paddingTop: '30px' }}>

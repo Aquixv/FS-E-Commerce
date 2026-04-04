@@ -1,13 +1,16 @@
 import React from 'react';
 import logo from '../src/assets/default.png';
-import './Navbar.css';
 import { Link } from 'react-router-dom';
+import './Navbar.css';
+import { useCart } from '../src/CartContext';
+
 
 const Header = () => {
+
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
-
+const {cartCount} = useCart();
   return (
     <header className="main-header">
   <div className="nav-container">
@@ -42,7 +45,7 @@ const Header = () => {
           🔍 Search
         </button>
         <button className="cart-icon">
-          🛒 <span className="cart-count">0</span> Cart
+          🛒 <span className="cart-count">{cartCount}</span> Cart
         </button>
         <button className="account-btn">
           👤 Account
@@ -55,7 +58,7 @@ const Header = () => {
         <input type="text" placeholder="Search for products..." />
       </div>
       <button className="cart-icon desktop-only">
-        🛒 <span className="cart-count">0</span>
+        🛒 <span className="cart-count">{cartCount}</span>
       </button>
       <button className="account-btn desktop-only">
         👤 Account
