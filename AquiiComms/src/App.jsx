@@ -5,6 +5,9 @@ import Header from '../Landing page/Navbar';
 import Footer from '../Landing page/Footer';
 import ProductDetails from './Productdetails';
 import { CartProvider } from './CartContext';
+import Deals from '../Landing page/Deals';
+import StaticPage from '../Landing page/Staticpage';
+import New from '../Landing page/What\'s New';
 function App() {
   return (
     <CartProvider>
@@ -14,6 +17,9 @@ function App() {
       <main style={{ minHeight: '80vh' }}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/deals" element={<Deals />} />
+          <Route path="/delivery" element={<StaticPage title="Delivery Information" content="All orders are processed within 2-3 business days..." image='https://tse1.mm.bing.net/th/id/OIP.hS0QWmDOpc_2-dEHfLm3TwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'/>}/>
+          <Route path="/new" element={<New />} />
           <Route path="/category/:categoryName" element={<CategoryPage />} />
           <Route path="/products/all" element={<CategoryPage isAll={true} />} />
           <Route path="/product/:id" element={<ProductDetails />} />

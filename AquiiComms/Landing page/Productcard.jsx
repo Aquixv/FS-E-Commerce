@@ -3,10 +3,13 @@ import './Products.css';
 import { Link } from 'react-router-dom';
 import { useCart } from '../src/CartContext';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, mode }) => {
 
   const [isFavorite, setIsFavorite] = useState(false);
 const { incrementCart } = useCart();
+
+const originalPrice = (product.price / (1 - product.discountPercentage / 100)).toFixed(2);
+
 const handleAddToCart = (e) => {
   if (window.innerWidth <= 768) {
     incrementCart();
@@ -59,7 +62,17 @@ const handleAddToCart = (e) => {
   };
   return (
     <div className="product-card">
-      <div className="wishlist-icon" onClick={() => setIsFavorite(!isFavorite)}>
+      {mode === 'new' && (
+        <div className="badge new-badge" style={{ position: 'absolute', top: 150, left: 10, background: '#000', color: '#fff', padding: '4px 10px', borderRadius: '15px', fontSize: '0.8rem', zIndex: 10 }}>
+          NEW
+        </div>
+      )}
+      {mode === 'deal' && (
+        <div className="badge deal-badge" style={{ position: 'absolute', top: 150, left: 10, background: '#ff4757', color: '#fff', padding: '4px 10px', borderRadius: '15px', fontSize: '0.8rem', zIndex: 10 }}>
+          -{Math.round(product.discountPercentage)}%
+        </div>
+      )}
+      <div className="wishlist-icon" onClick={(e) => {e.preventDefault(); setIsFavorite(!isFavorite)}}>
         {isFavorite ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-suit-heart-fill" viewBox="0 0 16 16">
             <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"/>
@@ -76,7 +89,14 @@ const handleAddToCart = (e) => {
       <div className="product-info">
        <div className="title-price">
           <h3>{product.title}</h3>
-          <span className="price">${product.price}</span>
+          {mode === 'deal' ? (
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <span className="price" style={{ textDecoration: 'line-through', color: '#999', fontSize: '0.9rem' }}>${originalPrice}</span>
+                <span className="price" style={{ color: '#ff4757' }}>${product.price}</span>
+              </div>
+            ) : (
+              <span className="price">${product.price}</span>
+            )}
         </div>
         <p className="description">{product.description.substring(0, 50)}...</p>
         <div className="rating">

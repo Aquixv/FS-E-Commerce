@@ -36,9 +36,9 @@ const {cartCount} = useCart();
     <Link to="/category/womens-fashion" onClick={() => setIsOpen(false)}>Women's Fashion</Link>
   </div>
 </div>
-      <a className="menu" href="#deals">Deals</a>
-      <a className="menu" href="#new">What's New?</a>
-      <a className="menu" href="#Delivery">Delivery</a>
+      <Link to='/deals' className="menu">Deals</Link>
+      <Link to='/new' className="menu">What's New?</Link>
+      <Link to='/delivery' className="menu">Delivery</Link>
       <Link className="menu mobile-only" to="/" onClick={() => setIsOpen(false)}>Home</Link>
       <div className="side-actions">
         <button className="mobile-search-trigger" onClick={() => setIsSearchOpen(!isSearchOpen)}>

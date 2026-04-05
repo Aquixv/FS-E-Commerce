@@ -23,3 +23,7 @@ html, body {
   transform: scale(1.2);
   transition: transform 0.1s ease-in-out;
 }
+.loader{
+text-align: center;
+justify-content: center;
+}

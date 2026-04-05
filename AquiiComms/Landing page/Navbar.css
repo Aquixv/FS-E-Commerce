@@ -26,7 +26,7 @@ width: 100%;
   align-items: center;
   gap: 10px;
   flex: 1;
-  margin-left: -70px;
+  margin-left: -35px;
 }
 .logo-section img{
 width: 75%;
@@ -53,7 +53,7 @@ color: black;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  font-size: 20px !important;
+  font-size: 14px !important;
 }
 
 .menu {
@@ -62,7 +62,7 @@ color: black;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
-  font-size: 20px !important;
+  font-size: 14px !important;
 }
 
 .dropdown-content {
@@ -105,15 +105,14 @@ color: red;
 }
 .search-bar input {
   padding: 10px 20px;
-  width: 300px;
+  width: 200px;
   border: 1px solid #e0e0e0;
   border-radius: 25px;
   background: #f8f8f8;
-  transition: all 0.3s ease;
-  height: 45px;
+
 }
 .search-bar input:focus {
-  width: 320px;
+  width: 250px;
   border-color: transparent !important;
   background: #fff;
   border: none !important;
@@ -129,9 +128,9 @@ height: 25px;
   text-decoration: none;
 }
 
-.dropdown:hover .dropdown-content {
+/* .dropdown:hover .dropdown-content {
   display: block; 
-}
+} */
 
 .nav-actions {
   flex: 1;
@@ -149,11 +148,38 @@ height: 25px;
   display: none;
 
 }
+@media (min-width: 769px) {
+  .dropdown:hover .dropdown-content {
+    display: block; 
+  }
+  .nav-links a.menu, .dropbtn {
+    position: relative;
+    color: #555;
+    transition: color 0.3s ease;
+  }
+  .nav-links a.menu:hover, .dropdown:hover .dropbtn {
+    color: #000;
+  }
+
+  .nav-links a.menu::after, .dropbtn::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px; 
+    left: 0;
+    background-color: #000;
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
+  }
+
+  .nav-links a.menu:hover::after, .dropdown:hover .dropbtn::after {
+    width: 100%;
+  }
+}
 @media (max-width: 768px) {
   .desktop-only {
     display: none !important;
   }
-
   .nav-container {
     display: flex;
     justify-content: space-between;

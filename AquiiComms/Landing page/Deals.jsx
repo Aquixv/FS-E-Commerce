@@ -1,0 +1,26 @@
+import React, { useState, useEffect } from 'react';
+import ProductCard from './Productcard';
+
+const Deals = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch('https://dummyjson.com/products?skip=30&limit=20')
+      .then(res => res.json())
+      .then(data => setProducts(data.products));
+  }, []);
+
+  return (
+    <section className="product-section" style={{ paddingTop: '40px', minHeight: '80vh' }}>
+      <div className="section-header">
+        <h2>🔥 Today's Best Deals</h2>
+      </div>
+      <div className="product-grid page-grid">
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} mode="deal" /> 
+        ))}
+      </div>
+    </section>
+  );
+};
+export default Deals;
