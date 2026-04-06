@@ -87,7 +87,9 @@ if (window.innerWidth <= 768) {
       <div className="product-info-panel" style={{ flex: '1' }}>
         <p className="brand">{product.brand}</p>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>{product.title}</h1>
-        <div className="rating">⭐ {product.rating}</div>
+        <div className="rating"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000" className="bi bi-star-fill" viewBox="0 0 16 16">
+  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+</svg> {product.rating}</div>
         
         <h2 style={{ fontSize: '2rem', color: '#222', margin: '20px 0' }}>
           ${product.price}
@@ -110,7 +112,13 @@ if (window.innerWidth <= 768) {
           
           <div className="review-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
             <strong style={{ fontSize: '1.1rem' }}>{review.reviewerName}</strong>
-            <span style={{ color: '#FFB800' }}>{"⭐".repeat(review.rating)}</span>
+            <span style={{ color: '#000', display: 'flex', gap: '4px' }}>
+  {[...Array(review.rating)].map((_, i) => (
+    <svg key={i} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star-fill" viewBox="0 0 16 16">
+      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+    </svg>
+  ))}
+</span>
           </div>
           
           <p style={{ color: '#555', fontStyle: 'italic', margin: '0' }}>"{review.comment}"</p>
