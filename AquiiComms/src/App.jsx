@@ -8,6 +8,7 @@ import { CartProvider } from './CartContext';
 import Deals from '../Landing page/Deals';
 import StaticPage from '../Landing page/Staticpage';
 import New from '../Landing page/What\'s New';
+import Signup from './Signup';
 function App() {
   return (
     <CartProvider>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/category/:categoryName" element={<CategoryPage />} />
           <Route path="/products/all" element={<CategoryPage isAll={true} />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </main>
 

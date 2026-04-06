@@ -83,8 +83,6 @@ const handleAddToCart = (e) => {
           </svg>
         )}
       </div>
-      
-      {/* 1. Wrap ONLY the clickable product details in the Link */}
       <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
         <div className="image-container">
           <img src={product.thumbnail} alt={product.title} />
@@ -102,8 +100,6 @@ const handleAddToCart = (e) => {
               )}
           </div>
           <p className="description">{product.description.substring(0, 50)}...</p>
-          
-          {/* 2. Map over the rating to generate SVG Stars! */}
           <div className="rating" style={{ display: 'flex', alignItems: 'center', gap: '2px', marginBottom: '10px' }}>
             {[...Array(Math.round(product.rating))].map((_, i) => (
               <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#000" className="bi bi-star-fill" viewBox="0 0 16 16">
@@ -115,7 +111,6 @@ const handleAddToCart = (e) => {
         </div>
       </Link>
 
-      {/* 3. The Button is now safely OUTSIDE the <Link> */}
       <div style={{ padding: '0 20px 20px 20px', marginTop: 'auto' }}>
         <button className="add-to-cart-btn" onClick={handleAddToCart} style={{ width: '100%' }}>Add to Cart</button>
       </div>
