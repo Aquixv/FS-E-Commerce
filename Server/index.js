@@ -4,9 +4,12 @@ const cors = require('cors');
 require('dotenv').config(); 
 require('./connection');
 const path = require('path');
-const User = require('./models/Schema');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+// const User = require('./models/Schema');
+const port = process.env.PORT || 1500; 
+const authRoutes = require('./routes/routes');
+// const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcrypt');
+
 
 app.use(express.static(path.join(__dirname, 'views')));
 app.set('view engine', 'ejs');
@@ -17,10 +20,10 @@ app.use(cors({
 }));
 app.use(express.json());
 
-const port = process.env.PORT || 1500; 
-
-
 app.get('/', (req, res) => {
     res.send('API Live');
 });
-
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+app.use('/api/users', authRoutes);

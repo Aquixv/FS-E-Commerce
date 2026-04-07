@@ -1,39 +1,65 @@
-import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+  const navigate = useNavigate();
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(2, 'Name must be at least 2 characters')
+      .required('Full name is required'),
+    email: Yup.string()
+      .email('Invalid email address format')
+      .required('Email is required'),
+    password: Yup.string()
+      .min(6, 'Password must be at least 6 characters')
+      .required('Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match') 
+      .required('Please confirm your password')
   });
 
-  const [error, setError] = useState('');
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+      try {
+        const response = await fetch('http://localhost:1500/api/users/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: values.name,
+            email: values.email,
+            password: values.password,
+          }),
+        });
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+        const data = await response.json();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
+        if (!response.ok) {
+          throw new Error(data.message || 'Something went wrong during signup');
+        }
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match!');
-      return;
-    }
-    
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters.');
-      return;
-    }
+        localStorage.setItem('userInfo', JSON.stringify(data));
 
-    console.log("Ready to send to backend:", formData);
-  };
+        navigate('/'); 
+
+      } catch (error) {
+        setFieldError('email', error.message);
+      } finally {
+        setSubmitting(false); 
+      }
+    },
+  });
 
   return (
     <div className="auth-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa', padding: '40px 20px' }}>
@@ -44,32 +70,37 @@ const Signup = () => {
           <p style={{ color: '#666' }}>Join Popcart to start shopping.</p>
         </div>
 
-        {error && <div style={{ background: '#ffebee', color: '#c62828', padding: '10px', borderRadius: '8px', marginBottom: '20px', textAlign: 'center', fontSize: '0.9rem' }}>{error}</div>}
-
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
           <div className="input-group">
             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem' }}>Full Name</label>
             <input 
               type="text" 
               name="name" 
-              value={formData.name} 
-              onChange={handleChange} 
-              required 
-              style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', boxSizing: 'border-box' }}
+              {...formik.getFieldProps('name')}
+              style={{ 
+                width: '100%', padding: '12px 15px', borderRadius: '8px', fontSize: '1rem', boxSizing: 'border-box',
+                border: formik.touched.name && formik.errors.name ? '1px solid #ff4757' : '1px solid #ddd'
+              }}
             />
+            {formik.touched.name && formik.errors.name ? (
+              <div style={{ color: '#ff4757', fontSize: '0.85rem', marginTop: '5px' }}>{formik.errors.name}</div>
+            ) : null}
           </div>
-
           <div className="input-group">
             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem' }}>Email Address</label>
             <input 
               type="email" 
               name="email" 
-              value={formData.email} 
-              onChange={handleChange} 
-              required 
-              style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', boxSizing: 'border-box' }}
+              {...formik.getFieldProps('email')}
+              style={{ 
+                width: '100%', padding: '12px 15px', borderRadius: '8px', fontSize: '1rem', boxSizing: 'border-box',
+                border: formik.touched.email && formik.errors.email ? '1px solid #ff4757' : '1px solid #ddd'
+              }}
             />
+            {formik.touched.email && formik.errors.email ? (
+              <div style={{ color: '#ff4757', fontSize: '0.85rem', marginTop: '5px' }}>{formik.errors.email}</div>
+            ) : null}
           </div>
 
           <div className="input-group">
@@ -77,26 +108,42 @@ const Signup = () => {
             <input 
               type="password" 
               name="password" 
-              value={formData.password} 
-              onChange={handleChange} 
-              required 
-              style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', boxSizing: 'border-box' }}
+              {...formik.getFieldProps('password')}
+              style={{ 
+                width: '100%', padding: '12px 15px', borderRadius: '8px', fontSize: '1rem', boxSizing: 'border-box',
+                border: formik.touched.password && formik.errors.password ? '1px solid #ff4757' : '1px solid #ddd'
+              }}
             />
+            {formik.touched.password && formik.errors.password ? (
+              <div style={{ color: '#ff4757', fontSize: '0.85rem', marginTop: '5px' }}>{formik.errors.password}</div>
+            ) : null}
           </div>
-
           <div className="input-group">
             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600', fontSize: '0.9rem' }}>Confirm Password</label>
             <input 
               type="password" 
               name="confirmPassword" 
-              value={formData.confirmPassword} 
-              onChange={handleChange} 
-              required 
-              style={{ width: '100%', padding: '12px 15px', borderRadius: '8px', border: '1px solid #ddd', fontSize: '1rem', boxSizing: 'border-box' }}
+              {...formik.getFieldProps('confirmPassword')}
+              style={{ 
+                width: '100%', padding: '12px 15px', borderRadius: '8px', fontSize: '1rem', boxSizing: 'border-box',
+                border: formik.touched.confirmPassword && formik.errors.confirmPassword ? '1px solid #ff4757' : '1px solid #ddd'
+              }}
             />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+              <div style={{ color: '#ff4757', fontSize: '0.85rem', marginTop: '5px' }}>{formik.errors.confirmPassword}</div>
+            ) : null}
           </div>
 
-          <button type="submit" style={{ width: '100%', padding: '15px', background: '#000', color: '#fff', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: '600', cursor: 'pointer', marginTop: '10px' }}>
+          <button 
+            type="submit" 
+            disabled={!formik.isValid || formik.isSubmitting} 
+            style={{ 
+              width: '100%', padding: '15px', 
+              background: (!formik.isValid || formik.isSubmitting) ? '#ccc' : '#000', 
+              color: '#fff', border: 'none', borderRadius: '30px', fontSize: '1.1rem', fontWeight: '600', cursor: 'pointer', marginTop: '10px',
+              transition: 'background 0.3s'
+            }}
+          >
             Sign Up
           </button>
         </form>

@@ -9,6 +9,7 @@ import Deals from '../Landing page/Deals';
 import StaticPage from '../Landing page/Staticpage';
 import New from '../Landing page/What\'s New';
 import Signup from './Signup';
+import Login from './Login';
 function App() {
   return (
     <CartProvider>
@@ -25,6 +26,7 @@ function App() {
           <Route path="/products/all" element={<CategoryPage isAll={true} />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
 
