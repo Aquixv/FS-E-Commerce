@@ -3,8 +3,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useAuth } from './AuthContext';
 
 const Signup = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -49,9 +51,9 @@ const Signup = () => {
           throw new Error(data.message || 'Something went wrong during signup');
         }
 
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        login(data);
 
-        navigate('/'); 
+        navigate('/account'); 
 
       } catch (error) {
         setFieldError('email', error.message);

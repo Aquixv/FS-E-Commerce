@@ -10,9 +10,13 @@ import StaticPage from '../Landing page/Staticpage';
 import New from '../Landing page/What\'s New';
 import Signup from './Signup';
 import Login from './Login';
+import Account from '../Landing page/Account';
+import { AuthProvider } from './AuthContext';
 function App() {
   return (
-    <CartProvider>
+  <AuthProvider>
+  <CartProvider>
+    
     <Router> 
       <Header />
       
@@ -27,12 +31,16 @@ function App() {
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       </main>
 
       <Footer />
     </Router>
-    </CartProvider>
+    </CartProvider> 
+    </AuthProvider>
+    
+  
   );
 }
 

@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useAuth } from './AuthContext';
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -38,8 +40,8 @@ const Login = () => {
       throw new Error(data.message || 'Invalid email or password');
     }
 
-    localStorage.setItem('userInfo', JSON.stringify(data));
-    navigate('/'); 
+    login(data);
+    navigate('/account'); 
 
   } catch (error) {
 
