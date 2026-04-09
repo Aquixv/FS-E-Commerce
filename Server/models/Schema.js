@@ -14,17 +14,20 @@ const userSchema = new mongoose.Schema({
   password: { 
     type: String,
   },
-  googleId: { 
-    type: String 
+  avatar: { 
+    type: String, 
+    default: 'https://res.cloudinary.com/your-cloud-name/image/upload/v1234567/default-avatar.png'
   },
+ googleId: { type: String, sparse: true },
+ githubId: { type: String, sparse: true },
   authProvider: { 
     type: String, 
-    enum: ['local', 'google'],
+    enum: ['local', 'google', 'github'],
     default: 'local' 
   },
   role: { 
     type: String, 
-    enum: ['customer', 'admin'],
+    enum: ['customer', 'admin', 'seller'],
     default: 'customer' 
   }
 }, { 

@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/Authcontroller');
 const { protect } = require('../middleware/authMiddleware'); 
+const { upload, cloudinary } = require('../cloudinary');
 const passport = require('passport');
 const generateToken = require('../config/GenerateToken');
+const User = require('../models/Schema')
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -40,4 +42,69 @@ router.get(
     res.redirect(`http://localhost:5173/login?user=${encodedUser}`);
   }
 );
+router.get(
+  '/github',
+  passport.authenticate('github', { scope: ['user:email'] })
+);
+
+router.get(
+  '/github/callback',
+  passport.authenticate('github', { session: false, failureRedirect: 'http://localhost:5173/login' }),
+  (req, res) => {
+    const token = generateToken(req.user._id);
+    const userData = JSON.stringify({
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role,
+      token: token
+    });
+
+    const encodedUser = encodeURIComponent(userData);
+    res.redirect(`http://localhost:5173/login?user=${encodedUser}`);
+  }
+);
+router.post('/profile/upload', protect, upload.single('avatar'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No image provided" });
+    }
+
+    const streamUpload = (req) => {
+      return new Promise((resolve, reject) => {
+        let stream = cloudinary.uploader.upload_stream(
+          { 
+            folder: "ecommerce_avatars",
+            transformation: [{ width: 500, height: 500, crop: 'limit' }]
+          },
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        stream.end(req.file.buffer); 
+      });
+    };
+    console.log("Uploading to Cloudinary...");
+    const result = await streamUpload(req);
+    console.log("✅ Cloudinary Success:", result.secure_url);
+
+    const updatedUser = await User.findByIdAndUpdate(
+  req.user._id,
+  { avatar: result.secure_url },
+  { returnDocument: 'after' }
+);
+    res.json({
+      message: "Profile picture updated successfully",
+      avatarUrl: updatedUser.avatar
+    });
+
+  } catch (error) {
+    console.error("🚨 Cloudinary/Server Error:", error);
+    return res.status(500).json({ message: "Error uploading image" });
+  }
+});
 module.exports = router;

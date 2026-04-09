@@ -1,4 +1,5 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy;
 const User = require('../models/Schema');
 
 module.exports = function (passport) {
@@ -34,6 +35,48 @@ module.exports = function (passport) {
           
           return done(null, newUser);
           
+        } catch (err) {
+          console.error(err);
+          return done(err, false);
+        }
+      }
+    )
+    
+  );
+  passport.use(
+    new GitHubStrategy(
+      {
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: 'http://localhost:1500/api/users/auth/github/callback',
+        scope: ['user:email'], 
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          const email = profile.emails && profile.emails.length > 0 ? profile.emails[0].value : null;
+
+          let user = await User.findOne({ githubId: profile.id });
+
+          if (user) {
+            return done(null, user);
+          }
+
+          let existingEmailUser = await User.findOne({ email: email });
+
+          if (existingEmailUser) {
+            existingEmailUser.githubId = profile.id;
+            await existingEmailUser.save();
+            return done(null, existingEmailUser);
+          }
+
+          const newUser = await User.create({
+            githubId: profile.id,
+            name: profile.displayName || profile.username, 
+            email: email,
+            authProvider: 'github',
+          });
+
+          return done(null, newUser);
         } catch (err) {
           console.error(err);
           return done(err, false);

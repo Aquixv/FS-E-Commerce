@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../src/AuthContext';
+import ProfilePicUpload from './profilepic';
 
 const Account = () => {
     const { logout } = useAuth();
   const [profile, setProfile] = useState(null);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('profile');
+  
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
@@ -47,7 +49,6 @@ const handleLogout = () => {
     navigate('/login');
   };
 
-
   if (!profile) return <div style={{ padding: '100px 20px', textAlign: 'center' }}>Loading your profile...</div>;
 
 return (
@@ -58,8 +59,9 @@ return (
         <div style={{ textAlign: 'center', paddingBottom: '20px', borderBottom: '1px solid #eee', marginBottom: '20px' }}>
           <div style={{ width: '80px', height: '80px', background: '#000', color: '#fff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 10px' }}>
             {profile.name.charAt(0)}
+            <ProfilePicUpload></ProfilePicUpload>
           </div>
-          <h3 style={{ margin: '0' }}>{profile.name}</h3>
+          <h3 style={{ margin: '0', marginTop:'60px' }}>{profile.name}</h3>
           <p style={{ color: '#666', fontSize: '0.9rem', margin: '5px 0 0' }}>{profile.email}</p>
         </div>
 
@@ -82,7 +84,7 @@ return (
               </div>
               <div>
                 <label style={{ fontSize: '0.85rem', color: '#999', textTransform: 'uppercase' }}>Email Address</label>
-                <p style={{ fontSize: '1.1rem', fontWeight: '500', margin: '5px 0' }}>{profile.email}</p>
+                <p style={{ fontSize: '1.1rem', fontWeight: '500', margin: '5px 0', overflowWrap: 'break-word', wordBreak:'break-all'}}>{profile.email}</p>
               </div>
               <div>
                 <label style={{ fontSize: '0.85rem', color: '#999', textTransform: 'uppercase' }}></label>
