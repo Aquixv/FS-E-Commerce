@@ -17,7 +17,7 @@ const Account = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:1500/api/users/profile', {
+        const response = await fetch('http://localhost:1500/api/users/auth/profile', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

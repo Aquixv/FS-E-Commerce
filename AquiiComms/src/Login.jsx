@@ -1,5 +1,6 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -8,6 +9,22 @@ import { useAuth } from './AuthContext';
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+ useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const userParam = searchParams.get('user');
+
+    if (userParam) {
+     try {
+        const userObj = JSON.parse(decodeURIComponent(userParam));
+        login(userObj); 
+        navigate('/account', { replace: true }); 
+
+      } catch (error) {
+        console.error("Failed to parse user data", error);
+      }
+    }
+  }, [location.search, navigate]);
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Invalid email address format')
@@ -116,13 +133,13 @@ const Login = () => {
             <div style={{ flex: 1, height: '1px', background: '#eee' }}></div>
           </div>
 
-          <button 
-            type="button"
-            style={{ width: '100%', padding: '12px', background: '#fff', color: '#333', border: '1px solid #ddd', borderRadius: '30px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
-          >
-            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{ width: '20px' }} />
-            Continue with Google
-          </button>
+          <a 
+      href="http://localhost:1500/api/users/auth/google" 
+      style={{ width: '100%', padding: '12px', background: '#fff', color: '#333', border: '1px solid #ddd', borderRadius: '30px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', textDecoration: 'none' }}
+    >
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{ width: '20px' }} />
+      Continue with Google
+    </a>
 
         </form>
 
