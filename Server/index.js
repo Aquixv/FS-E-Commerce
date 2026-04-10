@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config(); 
 require('./connection');
 const path = require('path');
-
+const productRoutes = require('./routes/Productroutes');
 const passport = require('passport'); 
 
 const port = process.env.PORT || 1500; 
@@ -24,7 +24,7 @@ require('./config/Passport')(passport);
 app.use(passport.initialize());
 
 app.use('/api/users/auth', authRoutes);
-
+app.use('/api/products', productRoutes);
 app.get('/', (req, res) => {
     res.send('API Live');
 });

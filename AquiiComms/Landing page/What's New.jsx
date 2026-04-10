@@ -5,7 +5,7 @@ const New = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('https://dummyjson.com/products?skip=50&limit=20')
+    fetch('http://localhost:1500/api/products?skip=50&limit=20')
       .then(res => res.json())
       .then(data => setProducts(data.products));
   }, []);
@@ -17,7 +17,7 @@ const New = () => {
       </div>
       <div className="product-grid page-grid">
         {products.map(product => (
-          <ProductCard key={product.id} product={product} mode="new" /> 
+          <ProductCard key={product._id} product={product} mode="new" /> 
         ))}
       </div>
     </section>

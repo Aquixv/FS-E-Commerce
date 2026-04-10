@@ -83,7 +83,7 @@ const handleAddToCart = (e) => {
           </svg>
         )}
       </div>
-      <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link to={`/product/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
         <div className="image-container">
           <img src={product.thumbnail} alt={product.title} />
         </div>

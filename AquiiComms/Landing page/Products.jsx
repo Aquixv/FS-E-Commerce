@@ -9,8 +9,8 @@ const ProductList = ({ title, categoryName, limit = 8 }) => {
 
   useEffect(() => {
     const url = categoryName 
-      ? `https://dummyjson.com/products/category/${categoryName}?limit=${limit}`
-      : `https://dummyjson.com/products?limit=${limit}`;
+      ? `http://localhost:1500/api/products/category/${categoryName}?limit=${limit}`
+      : `http://localhost:1500/api/products?limit=${limit}`;
 
     fetch(url)
       .then(res => res.json())
@@ -31,7 +31,7 @@ const ProductList = ({ title, categoryName, limit = 8 }) => {
       </div>
       <div className="product-grid">
         {products.map(product => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </section>

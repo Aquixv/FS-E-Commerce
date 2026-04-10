@@ -21,7 +21,7 @@ const CategoryPage = ({ isAll = false }) => {
     setActiveFilter('All'); 
 
     if (isAll) {
-      fetch('https://dummyjson.com/products?limit=0')
+      fetch('http://localhost:1500/api/products?limit=0')
         .then(res => res.json())
         .then(data => {
           setProducts(data.products);
@@ -32,7 +32,7 @@ const CategoryPage = ({ isAll = false }) => {
       const subCategoriesToFetch = categoryMap[categoryName] || [categoryName];
 
       const fetchPromises = subCategoriesToFetch.map(subCat => 
-        fetch(`https://dummyjson.com/products/category/${subCat}`).then(res => res.json())
+        fetch(`http://localhost:1500/api/products/category/${subCat}`).then(res => res.json())
       );
 
       Promise.all(fetchPromises)
@@ -99,7 +99,7 @@ const CategoryPage = ({ isAll = false }) => {
       
       <div className="product-grid page-grid">
         {displayedProducts.map(product => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </section>

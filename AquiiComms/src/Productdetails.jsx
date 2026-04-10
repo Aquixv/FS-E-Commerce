@@ -14,7 +14,7 @@ const { incrementCart } = useCart();
     window.scrollTo(0, 0);
     
 
-    fetch(`https://dummyjson.com/products/${id}`)
+    fetch(`http://localhost:1500/api/products/${id}`)
       .then(res => res.json())
       .then(data => {
         setProduct(data);

@@ -16,11 +16,11 @@ const importData = async () => {
     console.log('🗑️  Old products cleared...');
 
     console.log('⏳ Fetching products from DummyJSON...');
-    const response = await fetch('https://dummyjson.com/products?limit=100');
+    const response = await fetch('https://dummyjson.com/products?limit=0');
     const data = await response.json();
     await Product.insertMany(data.products);
     
-    console.log('✅ SUCCESS! 100 Products imported to MongoDB!');
+    console.log('✅ SUCCESS! all Products imported to MongoDB!');
     process.exit(); 
   } catch (error) {
     console.error('🚨 Error importing data:', error);

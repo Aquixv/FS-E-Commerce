@@ -7,7 +7,7 @@ const passport = require('passport');
 const generateToken = require('../config/GenerateToken');
 const User = require('../models/Schema')
 const { addToCart, getCart } = require('../controllers/Cartcontroller');
-
+const { getProducts, getProductsByCategory, getSingleProduct } = require('../controllers/Productcontroller');
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
@@ -112,4 +112,10 @@ router.post('/profile/upload', protect, upload.single('avatar'), async (req, res
 });
 router.post('/cart', protect, addToCart);
 router.get('/cart', protect, getCart);
+router.get('/products', getProducts);
+
+router.get('/products/category/:category', getProductsByCategory);
+
+
+router.get('/products/:id', getSingleProduct);
 module.exports = router;
