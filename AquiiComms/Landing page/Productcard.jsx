@@ -6,13 +6,13 @@ import { useCart } from '../src/CartContext';
 const ProductCard = ({ product, mode }) => {
 
   const [isFavorite, setIsFavorite] = useState(false);
-const { incrementCart } = useCart();
+const { addToCart } = useCart();
 
 const originalPrice = (product.price / (1 - product.discountPercentage / 100)).toFixed(2);
 
 const handleAddToCart = (e) => {
   if (window.innerWidth <= 768) {
-    incrementCart();
+   addToCart(product._id, 1);
     return;
   }
     e.preventDefault();
@@ -23,7 +23,7 @@ const handleAddToCart = (e) => {
     const cartIcon = document.querySelector('.nav-actions .cart-icon');
 
     if (!img || !cartIcon) {
-      incrementCart();
+      addToCart(product._id, 1);
       return;
     }
 
@@ -54,7 +54,7 @@ const handleAddToCart = (e) => {
 
     setTimeout(() => {
       flyingImg.remove();
-      incrementCart();
+      addToCart(product._id, 1);
       
       cartIcon.classList.add('pop-animation');
       setTimeout(() => cartIcon.classList.remove('pop-animation'), 300);

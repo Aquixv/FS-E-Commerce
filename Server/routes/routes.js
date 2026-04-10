@@ -6,6 +6,7 @@ const { upload, cloudinary } = require('../cloudinary');
 const passport = require('passport');
 const generateToken = require('../config/GenerateToken');
 const User = require('../models/Schema')
+const { addToCart, getCart } = require('../controllers/Cartcontroller');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -13,10 +14,11 @@ router.post('/login', loginUser);
 router.get('/profile', protect, async (req, res) => {
 
   res.json({
-    _id: req.user._id,
-    name: req.user.name,
-    email: req.user.email,
-    role: req.user.role
+      _id: req.user._id,
+  name: req.user.name,
+  email: req.user.email,
+  role: req.user.role,
+  avatar: req.user.avatar,
   });
 });
 router.get(
@@ -31,12 +33,13 @@ router.get(
 
     const token = generateToken(req.user._id);
     const userData = JSON.stringify({
-      _id: req.user._id,
-      name: req.user.name,
-      email: req.user.email,
-      role: req.user.role,
-      token: token
-    });
+  _id: req.user._id,
+  name: req.user.name,
+  email: req.user.email,
+  role: req.user.role,
+  avatar: req.user.avatar,
+  token: token
+});
 
     const encodedUser = encodeURIComponent(userData);
     res.redirect(`http://localhost:5173/login?user=${encodedUser}`);
@@ -107,4 +110,6 @@ router.post('/profile/upload', protect, upload.single('avatar'), async (req, res
     return res.status(500).json({ message: "Error uploading image" });
   }
 });
+router.post('/cart', protect, addToCart);
+router.get('/cart', protect, getCart);
 module.exports = router;

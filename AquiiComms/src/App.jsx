@@ -12,6 +12,7 @@ import Signup from './Signup';
 import Login from './Login';
 import Account from '../Landing page/Account';
 import { AuthProvider } from './AuthContext';
+import Cart from '../Landing page/Checkout';
 function App() {
   return (
   <AuthProvider>
@@ -32,6 +33,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/checkout" element={<Cart />} />
         </Routes>
       </main>
 

@@ -18,7 +18,7 @@ const Login = () => {
      try {
         const userObj = JSON.parse(decodeURIComponent(userParam));
         login(userObj); 
-        navigate('/account', { replace: true }); 
+        window.location.href = '/account'; 
 
       } catch (error) {
         console.error("Failed to parse user data", error);

@@ -1,0 +1,52 @@
+const Cart = require('../models/Cart');
+
+const addToCart = async (req, res) => {
+  const { productId, quantity } = req.body; 
+  const userId = req.user._id; 
+
+  try {
+    let cart = await Cart.findOne({ user: userId });
+
+    if (cart) {
+      let itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
+
+      if (itemIndex > -1) {
+        cart.items[itemIndex].quantity += quantity;
+      } else {
+        cart.items.push({ product: productId, quantity });
+      }
+      
+      cart = await cart.save();
+      return res.status(200).json(cart);
+
+    } else {
+      const newCart = await Cart.create({
+        user: userId,
+        items: [{ product: productId, quantity }]
+      });
+      return res.status(201).json(newCart);
+    }
+
+  } catch (error) {
+    console.error("Add to cart error:", error);
+    return res.status(500).json({ message: "Server error adding to cart" });
+  }
+};
+
+const getCart = async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ user: req.user._id })
+      .populate('items.product', 'name price image');
+
+    if (!cart) {
+      return res.status(200).json({ items: [] }); 
+    }
+
+    return res.status(200).json(cart);
+  } catch (error) {
+    console.error("Get cart error:", error);
+    return res.status(500).json({ message: "Server error fetching cart" });
+  }
+};
+
+module.exports = { addToCart, getCart };
