@@ -3,7 +3,7 @@ import { useCart } from '../src/CartContext';
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, addToCart, decreaseQuantity } = useCart();
   const navigate = useNavigate();
 
   const calculateTotal = () => {
@@ -17,35 +17,52 @@ const Cart = () => {
     return (
       <div style={{ textAlign: 'center', marginTop: '50px' }}>
         <h2>Your Cart is Empty</h2>
-        <button onClick={() => navigate('/')}>Continue Shopping</button>
+        <button style={{ background: '#4CAF50', color: 'white', border: 'none', padding: '15px 30px', fontSize: '18px', borderRadius: '5px', cursor: 'pointer' }} onClick={() => navigate('/')}>Continue Shopping</button>
       </div>
     );
   }
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      <h1>Your Cart</h1>
+      {/* <h1>Your Cart</h1> */}
       
-      <div style={{ borderTop: '1px solid #ccc' }}>
+      <div style={{ borderTop: '1px solid transparent' }}>
         {cart.items.map((item) => (
           <div 
             key={item.product._id} 
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '15px 0', borderBottom: '1px solid #eee' }}
           >
-            <img src={item.product.image} alt={item.product.name} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
-            
+            <img src={item.product.thumbnail} alt={item.product.title} style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
+           
+
             <div style={{ flex: 1, paddingLeft: '20px' }}>
-              <h3 style={{ margin: '0 0 5px 0' }}>{item.product.name}</h3>
-              <p style={{ margin: 0 }}>Qty: {item.quantity}</p>
+              <h3 style={{ margin: '0 0 5px 0' }}>{item.product.title}</h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '10px' }}>
+  <button 
+    onClick={() => decreaseQuantity(item.product._id)}
+    style={{ fontSize:'large', padding: '5px 12px', cursor: 'pointer', background: '#eee', border: '1px solid transparent', borderRadius: '4px' }}
+  >
+    -
+  </button>
+  
+  <p style={{ margin: 0, fontWeight: 'bold' }}>{item.quantity}</p>
+  
+  <button 
+    onClick={() => addToCart(item.product, 1)}
+    style={{ fontSize:'large', padding: '5px 12px', cursor: 'pointer', background: '#eee', border: '1px solid transparent', borderRadius: '4px' }}
+  >
+    +
+  </button>
+</div>
             </div>
 
             <div style={{ textAlign: 'right' }}>
               <p style={{ fontWeight: 'bold' }}>${(item.product.price * item.quantity).toFixed(2)}</p>
               <button 
                 onClick={() => removeFromCart(item.product._id)}
-                style={{ background: '#ff4d4f', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
+                style={{ background: 'none', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
               >
-                Remove
+                <img style={{width:'25px', height:'25px'}} src="https://www.svgrepo.com/show/533014/trash-blank.svg" alt="" />
               </button>
             </div>
           </div>

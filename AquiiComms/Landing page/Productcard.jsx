@@ -12,7 +12,7 @@ const originalPrice = (product.price / (1 - product.discountPercentage / 100)).t
 
 const handleAddToCart = (e) => {
   if (window.innerWidth <= 768) {
-   addToCart(product._id, 1);
+   addToCart(product, 1);
     return;
   }
     e.preventDefault();
@@ -23,7 +23,7 @@ const handleAddToCart = (e) => {
     const cartIcon = document.querySelector('.nav-actions .cart-icon');
 
     if (!img || !cartIcon) {
-      addToCart(product._id, 1);
+      addToCart(product, 1);
       return;
     }
 
@@ -54,7 +54,7 @@ const handleAddToCart = (e) => {
 
     setTimeout(() => {
       flyingImg.remove();
-      addToCart(product._id, 1);
+      addToCart(product, 1);
       
       cartIcon.classList.add('pop-animation');
       setTimeout(() => cartIcon.classList.remove('pop-animation'), 300);
