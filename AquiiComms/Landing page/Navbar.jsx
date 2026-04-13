@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from '/public/default.png';
+import logo from '/default.png';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { useCart } from '../src/CartContext';
-import cartimg from '/public/cart.svg'
+import cartimg from '/cart.svg'
 import { useAuth } from '../src/AuthContext';
 
 
