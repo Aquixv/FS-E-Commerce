@@ -3,9 +3,9 @@ import './Service.css';
 
 const Servicesection = () => {
   const services = [
-    { title: "Frequently Asked Questions", desc: "Updates on safe Shopping in our Stores", image:'../public/assets/shopping.jpg' },
-    { title: "Online Payment Process", desc: "Secure transactions with multiple methods", image:'../public/assets/payment.jpg' },
-    { title: "Home Delivery Options", desc: "Fast and reliable shipping to your door", image:'../public/assets/delivery.jpg' }
+    { title: "Frequently Asked Questions", desc: "Updates on safe Shopping in our Stores", image:'../public/shopping.jpg' },
+    { title: "Online Payment Process", desc: "Secure transactions with multiple methods", image:'../public/payment.jpg' },
+    { title: "Home Delivery Options", desc: "Fast and reliable shipping to your door", image:'../public/delivery.jpg' }
   ];
   return (
     <section className="services-section">
