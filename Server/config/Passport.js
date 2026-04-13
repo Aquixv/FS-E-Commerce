@@ -8,7 +8,7 @@ module.exports = function (passport) {
   {
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: 'http://localhost:1500/api/users/auth/google/callback', 
+    callbackURL: `${process.env.VITE_API_URL}/users/auth/google/callback`, 
   },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -48,7 +48,7 @@ module.exports = function (passport) {
       {
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: 'http://localhost:1500/api/users/auth/github/callback',
+        callbackURL: `${process.env.VITE_API_URL}/users/auth/github/callback`,
         scope: ['user:email'], 
       },
       async (accessToken, refreshToken, profile, done) => {

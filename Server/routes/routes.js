@@ -30,7 +30,7 @@ router.get(
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: 'http://localhost:5173/login' }),
+  passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/login` }),
   (req, res) => {
 
     const token = generateToken(req.user._id);
@@ -44,7 +44,7 @@ router.get(
 });
 
     const encodedUser = encodeURIComponent(userData);
-    res.redirect(`http://localhost:5173/login?user=${encodedUser}`);
+    res.redirect(`${process.env.FRONTEND_URL}/login?user=${encodedUser}`);
   }
 );
 router.get(
@@ -54,7 +54,7 @@ router.get(
 
 router.get(
   '/github/callback',
-  passport.authenticate('github', { session: false, failureRedirect: 'http://localhost:5173/login' }),
+  passport.authenticate('github', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/login` }),
   (req, res) => {
     const token = generateToken(req.user._id);
     const userData = JSON.stringify({
@@ -66,7 +66,7 @@ router.get(
     });
 
     const encodedUser = encodeURIComponent(userData);
-    res.redirect(`http://localhost:5173/login?user=${encodedUser}`);
+    res.redirect(`${process.env.FRONTEND_URL}/login?user=${encodedUser}`);
   }
 );
 router.post('/profile/upload', protect, upload.single('avatar'), async (req, res) => {

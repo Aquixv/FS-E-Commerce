@@ -11,7 +11,7 @@ const PORT = process.env.port || 1500;
 const authRoutes = require('./routes/routes');
 app.use(express.json());
 app.use(cors({
-  origin: ["http://localhost:5173", "https://popcart-seven.vercel.app"],
+  origin: [process.env.FRONTEND_URL, "https://popcart-seven.vercel.app"],
   credentials: true
 }));
 
