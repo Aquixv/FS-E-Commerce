@@ -11,6 +11,6 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true }, 
   thumbnail: { type: String, required: true },
   images: [String],
-  reviews: { type: Array, default: [] } // <-- ADD THIS LINE!
+  reviews: { type: Array, default: [] }
 }, { timestamps: true });
 module.exports = mongoose.model('Product', productSchema);

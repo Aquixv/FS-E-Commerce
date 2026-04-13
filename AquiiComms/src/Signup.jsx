@@ -33,7 +33,7 @@ const Signup = () => {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        const response = await fetch('http://localhost:1500/api/users/register', {
+        const response = await fetch('http://localhost:1500/api/users/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -166,6 +166,9 @@ const Signup = () => {
 
         <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
           Already have an account? <Link to="/login" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Log In</Link>
+        </p>
+        <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
+          Forgot Your Password? <Link to="/forgot-password" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Click Here.</Link>
         </p>
       </div>
     </div>

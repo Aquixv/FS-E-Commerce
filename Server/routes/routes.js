@@ -6,8 +6,10 @@ const { upload, cloudinary } = require('../cloudinary');
 const passport = require('passport');
 const generateToken = require('../config/GenerateToken');
 const User = require('../models/Schema')
+const { forgotPassword, resetPassword } = require('../controllers/Authcontroller');
 const { addToCart, getCart, removeFromCart, decreaseQuantity } = require('../controllers/Cartcontroller');
 const { getProducts, getProductsByCategory, getSingleProduct } = require('../controllers/Productcontroller');
+const { createOrder } = require('../controllers/Ordercontroller');
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
@@ -119,4 +121,7 @@ router.get('/products/category/:category', getProductsByCategory);
 router.delete('/cart/:productId', protect, removeFromCart);
 router.put('/cart/:productId/decrease', protect, decreaseQuantity);
 router.get('/products/:id', getSingleProduct);
+router.post('/orders', protect, createOrder);
+router.post('/forgot-password', forgotPassword);
+router.put('/reset-password/:token', resetPassword);
 module.exports = router;

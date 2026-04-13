@@ -2,7 +2,7 @@ const Product = require('../models/Product');
 
 const getProducts = async (req, res) => {
   try {
-    const limit = parseInt(req.query.limit) || 30;
+    const limit = req.query.limit !== undefined ? parseInt(req.query.limit) : 30;
     const skip = parseInt(req.query.skip) || 0;
 
     const products = await Product.find({}).skip(skip).limit(limit);

@@ -152,6 +152,9 @@ const Login = () => {
         <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
           Don't have an account? <Link to="/signup" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Sign Up</Link>
         </p>
+        <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
+                  Forgot Your Password? <Link to="/forgot-password" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Click Here.</Link>
+                </p>
       </div>
     </div>
   );

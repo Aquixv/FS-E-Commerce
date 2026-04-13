@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'; 
 import './Hero.css';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate
   const themes = [
     {
       title: "New Arrival 2026",
@@ -36,7 +39,12 @@ const Hero = () => {
   }, [themes.length]);
 
   const activeTheme = themes[current];
-
+const scrollToFooter = () => {
+  const footer = document.getElementById('footer-section');
+  if (footer) {
+    footer.scrollIntoView({ behavior: 'smooth' });
+  }
+};
   return (
     <>
     <section style={{backgroundColor: activeTheme.accent}} className="hero-container">
@@ -53,8 +61,8 @@ const Hero = () => {
         <p>{activeTheme.description}</p>
         
         <div className="hero-btns">
-          <button className="primary-btn">Shop Now</button>
-          <button className="secondary-btn">Learn More</button>
+        <Link to= '/products/all'><button className="primary-btn">Shop Now</button></Link>
+        <button onClick={scrollToFooter} className="secondary-btn">Learn More</button> 
         </div>
       </div>
 

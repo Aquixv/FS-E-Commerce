@@ -18,6 +18,14 @@ const userSchema = new mongoose.Schema({
     type: String, 
     default: 'https://res.cloudinary.com/your-cloud-name/image/upload/v1234567/default-avatar.png'
   },
+  resetPasswordToken: {
+    type: String,
+    required: false
+  },
+  resetPasswordExpire: {
+    type: Date,
+    required: false
+  },
  googleId: { type: String, sparse: true },
  githubId: { type: String, sparse: true },
   authProvider: { 

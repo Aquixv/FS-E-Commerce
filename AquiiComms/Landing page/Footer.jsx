@@ -4,7 +4,7 @@ import logo from '../src/assets/default.png';
 
 const Footer = () => {
   return (
-    <footer className="main-footer">
+    <footer id="footer-section" className="main-footer">
       <div className="footer-container">
         <div className="footer-brand">
           <img src={logo} alt="Popcart" />

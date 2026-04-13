@@ -12,7 +12,10 @@ import Signup from './Signup';
 import Login from './Login';
 import Account from '../Landing page/Account';
 import { AuthProvider } from './AuthContext';
-import Cart from '../Landing page/Checkout';
+import Cart from '../Landing page/Cart';
+import Checkout from '../Landing page/Checkout';
+import ResetPassword from './ResetPassword';
+import ForgotPassword from './Forgotpassword';
 function App() {
   return (
   <AuthProvider>
@@ -33,7 +36,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/checkout" element={<Cart />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </main>
 
