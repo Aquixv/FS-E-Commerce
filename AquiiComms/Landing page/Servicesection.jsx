@@ -2,9 +2,9 @@ import React from 'react';
 import './Service.css';
 const Servicesection = () => {
   const services = [
-    { title: "Frequently Asked Questions", desc: "Updates on safe Shopping in our Stores", image:'/shopping.jpg' },
+    { title: "Frequently Asked Questions", desc: "Updates on safe Shopping in our Stores", image:'/Shopping.jpg' },
     { title: "Online Payment Process", desc: "Secure transactions with multiple methods", image:'/payment.jpg' },
-    { title: "Home Delivery Options", desc: "Fast and reliable shipping to your door", image:'/delivery.jpg' }
+    { title: "Home Delivery Options", desc: "Fast and reliable shipping to your door", image:'/Delivery.jpg' }
   ];
   return (
     <section className="services-section">
