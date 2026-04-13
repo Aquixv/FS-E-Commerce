@@ -13,12 +13,12 @@ const authRoutes = require('./routes/routes');
 app.use(express.static(path.join(__dirname, 'views')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(express.json());
 app.use(cors({
   origin: ["http://localhost:5173", "https://popcart-seven.vercel.app"],
   credentials: true
 }));
-app.use(express.json());
+
 
 require('./config/Passport')(passport); 
 app.use(passport.initialize());
