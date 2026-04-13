@@ -15,7 +15,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(cors({
-  origin: ["http://localhost:5173", "https://popcart-seven.vercel.app/"],
+  origin: ["http://localhost:5173", "https://popcart-seven.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
