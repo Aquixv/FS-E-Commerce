@@ -42,7 +42,7 @@ const Login = () => {
     validationSchema: validationSchema,
    onSubmit: async (values, { setSubmitting, setFieldError }) => {
      try {
-    const response = await fetch('http://localhost:1500/api/users/login', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -134,14 +134,14 @@ const Login = () => {
           </div>
 
           <a 
-      href="http://localhost:1500/api/users/auth/google" 
+      href= {`${import.meta.env.VITE_API_URL}/users/auth/google`}
       style={{ width: '100%', padding: '12px', background: '#fff', color: '#333', border: '1px solid #ddd', borderRadius: '30px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', textDecoration: 'none' }}
     >
       <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style={{ width: '20px' }} />
       Continue with Google
     </a>
 <a 
-      href="http://localhost:1500/api/users/auth/github" 
+      href={`${import.meta.env.VITE_API_URL}/users/auth/github`}
       style={{ width: '100%', padding: '12px', background: '#fff', color: '#333', border: '1px solid #ddd', borderRadius: '30px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', textDecoration: 'none' }}
     >
       <img src="https://www.svgrepo.com/show/512317/github-142.svg" alt="Github" style={{ width: '20px' }} />

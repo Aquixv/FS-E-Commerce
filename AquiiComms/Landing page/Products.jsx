@@ -9,8 +9,8 @@ const ProductList = ({ title, categoryName, limit = 8 }) => {
 
   useEffect(() => {
     const url = categoryName 
-      ? `http://localhost:1500/api/products/category/${categoryName}?limit=${limit}`
-      : `http://localhost:1500/api/products?limit=${limit}`;
+      ? `${import.meta.env.VITE_API_URL}/products/category/${categoryName}?limit=${limit}`
+      : `${import.meta.env.VITE_API_URL}/products?limit=${limit}`;
 
     fetch(url)
       .then(res => res.json())

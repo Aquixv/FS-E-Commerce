@@ -20,7 +20,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async () => {
     if (!isLoggedIn) return; 
     try {
-      const response = await fetch('http://localhost:1500/api/users/auth/cart', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/cart`, {
         headers: { Authorization: `Bearer ${userInfo.token}` }
       });
       if (response.ok) {
@@ -35,7 +35,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product, quantity = 1) => {
     if (isLoggedIn) {
       try {
-        const response = await fetch('http://localhost:1500/api/users/auth/cart', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/cart`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (productId) => {
     if (isLoggedIn) {
       try {
-        const response = await fetch(`http://localhost:1500/api/users/auth/cart/${productId}`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/cart/${productId}`, {
           method: 'DELETE',
           headers: { Authorization: `Bearer ${userInfo.token}` }
         });
@@ -82,7 +82,7 @@ export const CartProvider = ({ children }) => {
 const decreaseQuantity = async (productId) => {
     if (isLoggedIn) {
       try {
-        const response = await fetch(`http://localhost:1500/api/users/auth/cart/${productId}/decrease`, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/cart/${productId}/decrease`, {
           method: 'PUT',
           headers: { Authorization: `Bearer ${userInfo.token}` }
         });

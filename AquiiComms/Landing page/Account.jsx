@@ -19,7 +19,7 @@ const Account = () => {
 
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://localhost:1500/api/users/auth/profile', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/profile`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

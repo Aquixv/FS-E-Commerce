@@ -14,7 +14,7 @@ const { incrementCart } = useCart();
     window.scrollTo(0, 0);
     
 
-    fetch(`http://localhost:1500/api/products/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/products/${id}`)
       .then(res => res.json())
       .then(data => {
         setProduct(data);

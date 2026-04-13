@@ -7,7 +7,7 @@ const path = require('path');
 const productRoutes = require('./routes/Productroutes');
 const passport = require('passport'); 
 
-const port = process.env.PORT || 1500; 
+const PORT = process.env.port || 1500; 
 const authRoutes = require('./routes/routes');
 
 app.use(express.static(path.join(__dirname, 'views')));
@@ -28,7 +28,9 @@ app.use('/api/products', productRoutes);
 app.get('/', (req, res) => {
     res.send('API Live');
 });
-
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+app.get('/health', (req, res) => {
+    res.status(200).send('Server is alive and kicking! 🚀');
+});
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

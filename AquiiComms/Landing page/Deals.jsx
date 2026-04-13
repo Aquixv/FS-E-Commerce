@@ -5,7 +5,7 @@ const Deals = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:1500/api/products?skip=30&limit=20')
+    fetch(`${import.meta.env.VITE_API_URL}/products?skip=30&limit=20`)
       .then(res => res.json())
       .then(data => setProducts(data.products));
   }, []);

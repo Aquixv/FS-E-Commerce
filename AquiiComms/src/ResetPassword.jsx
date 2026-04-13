@@ -26,7 +26,7 @@ const ResetPassword = () => {
 
     try {
 
-      const response = await fetch(`http://localhost:1500/api/users/auth/reset-password/${token}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/reset-password/${token}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password })

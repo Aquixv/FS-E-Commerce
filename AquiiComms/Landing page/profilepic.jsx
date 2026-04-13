@@ -30,7 +30,7 @@ const ProfilePicUpload = () => {
     try {
       const savedUser = JSON.parse(localStorage.getItem('userInfo'));
 
-      const response = await fetch('http://localhost:1500/api/users/auth/profile/upload', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/profile/upload`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${savedUser ? savedUser.token : ''}` 

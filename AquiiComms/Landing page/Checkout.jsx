@@ -37,7 +37,7 @@ const Checkout = () => {
           price: item.product.price,
           product: item.product._id
         }));
-        const res = await fetch('http://localhost:1500/api/users/auth/orders', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/orders`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

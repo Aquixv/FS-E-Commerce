@@ -21,7 +21,7 @@ const CategoryPage = ({ isAll = false }) => {
     setActiveFilter('All'); 
 
     if (isAll) {
-      fetch('http://localhost:1500/api/products?limit=0')
+      fetch(`${import.meta.env.VITE_API_URL}/products?limit=0`)
         .then(res => res.json())
         .then(data => {
           setProducts(data.products);
@@ -32,7 +32,7 @@ const CategoryPage = ({ isAll = false }) => {
       const subCategoriesToFetch = categoryMap[categoryName] || [categoryName];
 
       const fetchPromises = subCategoriesToFetch.map(subCat => 
-        fetch(`http://localhost:1500/api/products/category/${subCat}`).then(res => res.json())
+        fetch(`${import.meta.env.VITE_API_URL}/products/category/${subCat}`).then(res => res.json())
       );
 
       Promise.all(fetchPromises)
