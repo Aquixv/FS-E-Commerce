@@ -99,7 +99,7 @@ const Login = () => {
           <div className="input-group">
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
               <label style={{ fontWeight: '600', fontSize: '0.9rem' }}>Password</label>
-              <a href="#" style={{ fontSize: '0.85rem', color: '#666', textDecoration: 'none' }}>Forgot password?</a>
+              <Link to='/forgot-password' style={{ fontSize: '0.85rem', color: '#666', textDecoration: 'none' }}>Forgot password?</Link>
             </div>
             <input 
               type="password" 
@@ -152,9 +152,9 @@ const Login = () => {
         <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
           Don't have an account? <Link to="/signup" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Sign Up</Link>
         </p>
-        <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
+        {/* <p style={{ textAlign: 'center', marginTop: '25px', color: '#666', fontSize: '0.95rem' }}>
                   Forgot Your Password? <Link to="/forgot-password" style={{ color: '#000', fontWeight: 'bold', textDecoration: 'none' }}>Click Here.</Link>
-                </p>
+                </p> */}
       </div>
     </div>
   );

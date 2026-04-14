@@ -66,10 +66,10 @@ return (
         </div>
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <button onClick={() => setActiveTab('profile')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'profile' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}>👤 My Profile</button>
-          <button onClick={() => setActiveTab('orders')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'orders' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}>📦 Order History</button>
-          <button onClick={() => setActiveTab('settings')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'settings' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}>⚙️ Settings</button>
-          <button onClick={handleLogout} style={{ padding: '12px 15px', textAlign: 'left', background: '#fff0f0', color: '#d32f2f', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', marginTop: '20px' }}>🚪 Log Out</button>
+          <button onClick={() => setActiveTab('profile')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'profile' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" alt="" /> My Profile</button>
+          <button onClick={() => setActiveTab('orders')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'orders' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/301014/boxes.svg" alt="" /> Order History</button>
+          <button onClick={() => setActiveTab('settings')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'settings' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/527439/settings.svg" alt="" /> Settings</button>
+          <button onClick={handleLogout} style={{ padding: '12px 15px', textAlign: 'left', background: '#fff0f0', color: '#d32f2f', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', marginTop: '20px' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/472582/door-open.svg" alt="" /> Log Out</button>
         </nav>
       </div>
       <div className="account-content" style={{ flex: '3', minWidth: '300px', background: '#fff', borderRadius: '15px', padding: '40px', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
@@ -96,7 +96,7 @@ return (
 
         {activeTab === 'orders' && (
           <div style={{ textAlign: 'center', padding: '40px 0' }}>
-            <span style={{ fontSize: '4rem' }}>🛍️</span>
+            <span style={{ fontSize: '4rem' }}> <img style={{ width:'10vw', height:'10vh' }} src="https://www.svgrepo.com/show/314988/shopping-bags.svg" alt="" /> </span>
             <h3 style={{ margin: '20px 0 10px' }}>No orders yet</h3>
             <p style={{ color: '#666', marginBottom: '20px' }}>When you buy something, it will appear here.</p>
             <button style={{ padding: '10px 20px', background: '#000', color: '#fff', border: 'none', borderRadius: '20px', cursor: 'pointer' }}>Start Shopping</button>
