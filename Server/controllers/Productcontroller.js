@@ -4,10 +4,15 @@ const getProducts = async (req, res) => {
   try {
     const limit = req.query.limit !== undefined ? parseInt(req.query.limit) : 30;
     const skip = parseInt(req.query.skip) || 0;
-
-    const products = await Product.find({}).skip(skip).limit(limit);
-    const total = await Product.countDocuments(); 
-
+    const searchFilter = req.query.keyword
+      ? { title: { $regex: req.query.keyword, $options: 'i' } }
+      : {};
+    const products = await Product.find({ ...searchFilter })
+                                  .skip(skip)
+                                  .limit(limit);
+                                  
+    const total = await Product.countDocuments({ ...searchFilter });
+      
     res.status(200).json({ 
       products,
       total,

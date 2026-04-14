@@ -1,25 +1,31 @@
 import React from 'react';
 import logo from '/default.png';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { useCart } from '../src/CartContext';
 import cartimg from '/cart.svg'
 import { useAuth } from '../src/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
-
+const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   // const [user, setUser] = React.useState(null);
 const {cartCount} = useCart();
-// React.useEffect(() => {
-//   const userInfo = localStorage.getItem('userInfo');
-//   if (userInfo) {
-//     setUser(JSON.parse(userInfo));
-//   }
-// }, []);
+const handleSearch = (e) => {
+  e.preventDefault();
+  if (searchTerm.trim()) {
+    navigate(`/?keyword=${searchTerm}`);
+  } else {
+    navigate('/');
+  }
+};
+
 const {user} = useAuth();
   return (
     <header className="main-header">
@@ -73,7 +79,14 @@ const {user} = useAuth();
 
     <div className="nav-actions">
       <div className="search-bar desktop-only">
-        <input type="text" placeholder="Search for products..." />
+        <form className='form' onSubmit={handleSearch}>
+  <input 
+    type="text" 
+    placeholder="Search for products..." 
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <button className='button8' type="submit"><img className='img8' style={{width: '20px', height:'20px'}} src="https://www.svgrepo.com/show/532554/search-alt.svg" alt="" /></button>
+</form>
       </div>
       <Link to={'/cart'}  className="cart-icon desktop-only">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#000" className="bi bi-cart3" viewBox="0 0 16 16">
@@ -95,7 +108,14 @@ const {user} = useAuth();
   </div>
 
   <div className={`mobile-search-overlay ${isSearchOpen ? 'active' : ''}`}>
-    <input type="text"  placeholder="Search for products..." />
+    <form className='form' onSubmit={handleSearch}>
+  <input 
+    type="text" 
+    placeholder="Search for products..." 
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+  <button className='button8' type="submit"><img style={{width: '20px', height:'20px'}} src="https://www.svgrepo.com/show/532554/search-alt.svg" alt="" /></button>
+</form>
     <button className='close' onClick={() => setIsSearchOpen(false)}>✕</button>
   </div>
   

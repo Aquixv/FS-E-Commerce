@@ -125,7 +125,17 @@ height: 25px;
   color: #333;
   text-decoration: none;
 }
-
+.form{
+display: flex;
+justify-content: space-between;
+}
+.button8{
+background-color: transparent;
+border: none;
+}
+.img8{
+margin-left: 10px;
+}
 /* .dropdown:hover .dropdown-content {
   display: block; 
 } */
@@ -192,6 +202,8 @@ height: 25px;
   color: #000;
   border: transparent;
   font-size: 20px;
+  margin-left: 20px;
+  margin-top: -5px;
   }
   .desktop-only {
     display: none !important;
