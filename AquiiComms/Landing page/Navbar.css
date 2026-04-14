@@ -8,9 +8,6 @@
   z-index: 1000;
   padding: 0;
 }
-.nav-logo{
-width: 100%;
-}
 .nav-container {
   display: flex;
   justify-content: space-between;
@@ -29,8 +26,8 @@ width: 100%;
   margin-left: -35px;
 }
 .logo-section img{
-width: 75%;
-height: 75%;
+width: 10vh;
+height: 8vh;
 }
 .nav-links {
   display: flex;
@@ -212,8 +209,8 @@ height: 25px;
   }
 
   .logo-section img {
-    width: 120px;
-    height: auto;
+    width: 20vw;
+    height: 10vh;
   }
 
   .menu-toggle {
