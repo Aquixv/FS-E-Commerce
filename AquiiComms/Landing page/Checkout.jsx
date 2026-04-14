@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../src/CartContext'; 
-import { usePaystackPayment } from 'react-paystack';
+import { PaystackButton } from 'react-paystack';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
@@ -18,14 +18,14 @@ const Checkout = () => {
   const totalAmount = cart?.items?.reduce((total, item) => total + (item.product.price * item.quantity), 0) || 0;
 
   const publicKey = "pk_test_aed41b8546b5826ba7e2d0c06029c6acc73ccbfa"; 
-  
   const paystackProps = {
     email: userInfo?.email || "guest@example.com",
     amount: Math.round(totalAmount * 100), 
+    publicKey,
     metadata: {
       name: userInfo?.name,
     },
-    publicKey,
+    text: `Pay $${totalAmount.toFixed(2)} Now`,
     onSuccess: async (response) => {
       console.log("💳 Paystack Success!", response);
       
@@ -37,11 +37,12 @@ const Checkout = () => {
           price: item.product.price,
           product: item.product._id
         }));
+
         const res = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/orders`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${userInfo.token}`
+            Authorization: `Bearer ${userInfo?.token}`
           },
           body: JSON.stringify({
             orderItems: formattedItems,
@@ -49,7 +50,7 @@ const Checkout = () => {
             paymentResult: {
               id: response.reference,
               status: response.status,
-              email_address: userInfo.email
+              email_address: userInfo?.email
             },
             itemsPrice: totalAmount,
             totalPrice: totalAmount
@@ -57,14 +58,17 @@ const Checkout = () => {
         });
 
         if (res.ok) {
+          console.log("✅ Order saved to database!");
           localStorage.removeItem('guestCart');
-          
-          alert(`Payment Complete! Reference: ${response.reference}`);
           fetchCart(); 
-          navigate('/'); 
+          navigate('/delivery'); 
+        } else {
+          const errorData = await res.json();
+          console.error("❌ Backend rejected order:", errorData);
+          alert(`Database Error: ${errorData.message}`);
         }
       } catch (error) {
-        console.error("Failed to save order to database", error);
+        console.error("❌ Fetch failed entirely:", error);
       }
     },
     onClose: () => {
@@ -72,8 +76,6 @@ const Checkout = () => {
     },
   };
 
-  const initializePayment = usePaystackPayment(paystackProps);
-  
   const handleInputChange = (e) => {
     setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });
   };
@@ -86,6 +88,7 @@ const Checkout = () => {
       </div>
     );
   }
+  const isFormIncomplete = !shippingAddress.address || !shippingAddress.city || !shippingAddress.country;
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
@@ -101,18 +104,20 @@ const Checkout = () => {
         <input type="text" name="postalCode" placeholder="Postal Code" onChange={handleInputChange} required style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '16px' }}/>
         <input type="text" name="country" placeholder="Country" onChange={handleInputChange} required style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '16px' }} />
       </div>
-      <button 
-        onClick={() => initializePayment(paystackProps.onSuccess, paystackProps.onClose)}
-        disabled={!shippingAddress.address || !shippingAddress.city || !shippingAddress.country}
-        style={{ 
-          width: '100%', padding: '16px', background: 'green', color: 'white', 
-          border: 'none', borderRadius: '6px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer',
-          transition: 'all 0.3s ease',
-          opacity: (!shippingAddress.address || !shippingAddress.city || !shippingAddress.country) ? 0.5 : 1
-        }}
-      >
-        Pay ${totalAmount.toFixed(2)} Now
-      </button>
+
+      <div style={{
+        opacity: isFormIncomplete ? 0.5 : 1, 
+        pointerEvents: isFormIncomplete ? 'none' : 'auto'
+      }}>
+        <PaystackButton  className='pay' 
+          {...paystackProps} 
+          style={{ 
+            width: '100%', padding: '16px', background: 'green', color: 'white', 
+            border: 'none', borderRadius: '6px', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer',
+            transition: 'all 0.3s ease'
+          }}
+        />
+      </div>
     </div>
   );
 };

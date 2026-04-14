@@ -4,6 +4,7 @@ import CategoryPage from './CategoryPage';
 import Header from '../Landing page/Navbar';
 import Footer from '../Landing page/Footer';
 import ProductDetails from './Productdetails';
+import ProtectedRoute from '../Landing page/Protectroutes';
 import { CartProvider } from './CartContext';
 import Deals from '../Landing page/Deals';
 import StaticPage from '../Landing page/Staticpage';
@@ -37,7 +38,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/account" element={<Account />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout" element={
+  <ProtectedRoute>
+    <Checkout />
+  </ProtectedRoute>
+} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
