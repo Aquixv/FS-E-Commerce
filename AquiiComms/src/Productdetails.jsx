@@ -4,7 +4,7 @@ import { useCart } from './CartContext';
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { incrementCart } = useCart();
+  const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   
@@ -63,7 +63,7 @@ const ProductDetails = () => {
 
   const handleAddToCart = (e) => {
     if (window.innerWidth <= 768) {
-      incrementCart();
+      addToCart(product, 1);
       return;
     }
     const container = e.target.closest('.product-details-container'); 
@@ -71,7 +71,7 @@ const ProductDetails = () => {
     const cartIcon = document.querySelector('.nav-actions .cart-icon');
 
     if (!img || !cartIcon) {
-      incrementCart(); 
+      addToCart(product, 1); 
       return;
     }
 
@@ -102,7 +102,7 @@ const ProductDetails = () => {
   
     setTimeout(() => {
       flyingImg.remove();
-      incrementCart(); 
+      addToCart(product, 1); 
       cartIcon.classList.add('pop-animation');
       setTimeout(() => cartIcon.classList.remove('pop-animation'), 300);
     }, 800);

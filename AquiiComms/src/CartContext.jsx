@@ -49,7 +49,7 @@ export const CartProvider = ({ children }) => {
       }
     } else {
       const updatedCart = [...guestCart];
-      const existingItemIndex = updatedCart.findIndex(item => item.product._id === product._id);
+      const existingItemIndex = cart.items.findIndex(item => item.product?._id === product._id);
 
       if (existingItemIndex > -1) {
         updatedCart[existingItemIndex].quantity += quantity;
