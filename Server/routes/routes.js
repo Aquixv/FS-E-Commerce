@@ -11,6 +11,7 @@ const { addToCart, getCart, removeFromCart, decreaseQuantity } = require('../con
 const { getProducts, getProductsByCategory, getSingleProduct } = require('../controllers/Productcontroller');
 const { createOrder } = require('../controllers/Ordercontroller');
 const { toggleFavorite, getFavorites } = require('../controllers/Usercontroller');
+
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
@@ -121,10 +122,12 @@ router.get('/products/category/:category', getProductsByCategory);
 
 router.delete('/cart/:productId', protect, removeFromCart);
 router.put('/cart/:productId/decrease', protect, decreaseQuantity);
+
 router.get('/products/:id', getSingleProduct);
 router.post('/orders', protect, createOrder);
 router.post('/forgot-password', forgotPassword);
 router.put('/reset-password/:token', resetPassword);
 router.get('/favorites', protect, getFavorites);
 router.post('/favorites/:productId', protect, toggleFavorite);
+
 module.exports = router;
