@@ -10,6 +10,7 @@ const { forgotPassword, resetPassword } = require('../controllers/Authcontroller
 const { addToCart, getCart, removeFromCart, decreaseQuantity } = require('../controllers/Cartcontroller');
 const { getProducts, getProductsByCategory, getSingleProduct } = require('../controllers/Productcontroller');
 const { createOrder } = require('../controllers/Ordercontroller');
+const { toggleFavorite, getFavorites } = require('../controllers/Usercontroller');
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 
@@ -124,4 +125,6 @@ router.get('/products/:id', getSingleProduct);
 router.post('/orders', protect, createOrder);
 router.post('/forgot-password', forgotPassword);
 router.put('/reset-password/:token', resetPassword);
+router.get('/favorites', protect, getFavorites);
+router.post('/favorites/:productId', protect, toggleFavorite);
 module.exports = router;

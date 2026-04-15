@@ -37,7 +37,11 @@ const userSchema = new mongoose.Schema({
     type: String, 
     enum: ['customer', 'admin', 'seller'],
     default: 'customer' 
-  }
+  },
+  favorites: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product'
+  }]
 }, { 
   timestamps: true 
 });

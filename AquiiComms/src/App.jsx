@@ -17,11 +17,13 @@ import Cart from '../Landing page/Cart';
 import Checkout from '../Landing page/Checkout';
 import ResetPassword from './ResetPassword';
 import ForgotPassword from './Forgotpassword';
+import Favorites from '../Landing page/Favorites';
+import { FavoritesProvider } from './FavoritesContext';
 function App() {
   return (
   <AuthProvider>
   <CartProvider>
-    
+    <FavoritesProvider>
     <Router> 
       <Header />
       
@@ -45,11 +47,13 @@ function App() {
 } />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </main>
 
       <Footer />
     </Router>
+    </FavoritesProvider>
     </CartProvider> 
     </AuthProvider>
     

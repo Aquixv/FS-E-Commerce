@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { useCart } from '../src/CartContext';
 import cartimg from '/cart.svg'
+import { useFavorites } from '../src/FavoritesContext';
+import { FaHeart } from 'react-icons/fa';
 import { useAuth } from '../src/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 
 const Header = () => {
+  const { favorites } = useFavorites();
 const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
@@ -55,7 +58,19 @@ const {user} = useAuth();
       <Link to='/deals' className="menu">Deals</Link>
       <Link to='/new' className="menu">What's New?</Link>
       <Link to='/delivery' className="menu">Delivery</Link>
-      <Link className="menu mobile-only" to="/" onClick={() => setIsOpen(false)}>Home</Link>
+      <Link className='menu' to="/favorites" style={{ position: 'relative', display: 'inline-block'}}>
+  Favorites
+  {favorites.length > 0 && (
+    <span style={{ 
+      position: 'absolute', top: '-5px', right: '-16px', 
+      background: 'red', color: 'white', borderRadius: '50%', 
+      padding: '2px 6px', fontSize: '12px' 
+    }}>
+      {favorites.length}
+    </span>
+  )}
+</Link>
+<Link className="menu mobile-only" to="/" onClick={() => setIsOpen(false)}>Home</Link>
       <div className="side-actions">
         <button className="mobile-search-trigger" style={{backgroundColor:'transparent', border:'transparent'}} onClick={() => setIsSearchOpen(!isSearchOpen)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
@@ -74,6 +89,7 @@ const {user} = useAuth();
 </svg>
 {user ? `Hi, ${user.name.split(' ')[0]}` : 'Account'}
         </Link>
+        
       </div>
     </nav>
 

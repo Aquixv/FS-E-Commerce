@@ -1,30 +1,33 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from './AuthContext';
+import { useFavorites } from './FavoritesContext';
 
 const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
- useEffect(() => {
+  const { fetchFavorites } = useFavorites();
+  useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const userParam = searchParams.get('user');
 
     if (userParam) {
-     try {
+      try {
         const userObj = JSON.parse(decodeURIComponent(userParam));
-        login(userObj); 
+        
+        login(userObj);
+        fetchFavorites(); 
+        
         window.location.href = '/account'; 
-
       } catch (error) {
         console.error("Failed to parse user data", error);
       }
     }
   }, [location.search, navigate]);
+
   const validationSchema = Yup.object({
     email: Yup.string()
       .email('Invalid email address format')
@@ -33,42 +36,41 @@ const Login = () => {
       .required('Password is required')
       .min(6, 'password must be 6 characters or longer')
   });
-
   const formik = useFormik({
     initialValues: {
       email: '',
       password: ''
     },
     validationSchema: validationSchema,
-   onSubmit: async (values, { setSubmitting, setFieldError }) => {
-     try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: values.email,
-        password: values.password,
-      }),
-    });
+    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Invalid email or password');
+        if (!response.ok) {
+          throw new Error(data.message || 'Invalid email or password');
+        }
+        login(data); 
+
+        fetchFavorites();
+
+        navigate('/account'); 
+
+      } catch (error) {
+        setFieldError('password', error.message);
+      } finally {
+        setSubmitting(false); 
+      }
     }
-
-    login(data);
-    navigate('/account'); 
-
-  } catch (error) {
-
-    setFieldError('password', error.message);
-  } finally {
-    setSubmitting(false); 
-  }
-}
   });
-
   return (
     <div className="auth-container" style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f8f9fa', padding: '40px 20px' }}>
       <div className="auth-card" style={{ background: '#fff', padding: '40px', borderRadius: '15px', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', width: '100%', maxWidth: '450px' }}>
