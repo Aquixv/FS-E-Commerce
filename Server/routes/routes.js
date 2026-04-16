@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/Authcontroller');
-const { protect } = require('../middleware/authMiddleware'); 
+const { protect, isAdmin } = require('../middleware/authMiddleware'); 
 const { upload, cloudinary } = require('../cloudinary');
 const passport = require('passport');
 const generateToken = require('../config/GenerateToken');
@@ -11,6 +11,7 @@ const { addToCart, getCart, removeFromCart, decreaseQuantity } = require('../con
 const { getProducts, getProductsByCategory, getSingleProduct } = require('../controllers/Productcontroller');
 const { createOrder } = require('../controllers/Ordercontroller');
 const { toggleFavorite, getFavorites } = require('../controllers/Usercontroller');
+const { upgradeToSeller } = require('../controllers/Authcontroller');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -129,5 +130,6 @@ router.post('/forgot-password', forgotPassword);
 router.put('/reset-password/:token', resetPassword);
 router.get('/favorites', protect, getFavorites);
 router.post('/favorites/:productId', protect, toggleFavorite);
-
+router.put('/profile/upgrade', protect, upgradeToSeller);
+// router.get('/users', protect, isAdmin, getAllUsers);
 module.exports = router;

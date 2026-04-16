@@ -1,4 +1,4 @@
-const User = require('../models/Schema'); 
+const User = require('../models/Schema');
 const generateToken = require('../config/GenerateToken'); 
 const crypto = require('crypto');
 const sendEmail = require('../util/email');
@@ -115,4 +115,30 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, forgotPassword, resetPassword };
+
+const upgradeToSeller = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+      user.role = 'seller';
+      const updatedUser = await user.save();
+      const token = req.headers.authorization.split(' ')[1];
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        avatar: updatedUser.avatar,
+        token: token,
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error("Upgrade error:", error);
+    res.status(500).json({ message: 'Server error during upgrade' });
+  }
+};
+module.exports = { registerUser, loginUser, forgotPassword, resetPassword, upgradeToSeller };

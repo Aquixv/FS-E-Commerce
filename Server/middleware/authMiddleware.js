@@ -24,5 +24,19 @@ const protect = async (req, res, next) => {
    return res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
+const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    next(); 
+  } else {
+    res.status(403).json({ message: "Access denied. Admin only." });
+  }
+};
+const isSeller = (req, res, next) => {
+  if (req.user && (req.user.role === 'seller' || req.user.role === 'admin')) {
+    next(); 
+  } else {
+    res.status(403).json({ message: "Access denied. Seller only." });
+  }
+};
 
-module.exports = { protect };
+module.exports = { protect, isAdmin, isSeller };

@@ -19,6 +19,7 @@ import ResetPassword from './ResetPassword';
 import ForgotPassword from './Forgotpassword';
 import Favorites from '../Landing page/Favorites';
 import { FavoritesProvider } from './FavoritesContext';
+import Seller from '../Landing page/Seller';
 function App() {
   return (
   <AuthProvider>
@@ -48,6 +49,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/seller-dashboard" element={<Seller />} />
         </Routes>
       </main>
 
