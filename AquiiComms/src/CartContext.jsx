@@ -47,19 +47,16 @@ export const CartProvider = ({ children }) => {
       } catch (error) {
         console.error("Failed to add to auth cart", error);
       }
-    } else {
-      const updatedCart = [...guestCart];
-      const existingItemIndex = cart.items.findIndex(item => item.product?._id === product._id);
+    } const updatedCart = [...guestCart];
+const existingItemIndex = updatedCart.findIndex(item => item?.product?._id === product._id);
 
-      if (existingItemIndex > -1) {
-        updatedCart[existingItemIndex].quantity += quantity;
-      } else {
-        updatedCart.push({ product: product, quantity });
-      }
-      
-      setGuestCart(updatedCart);
-      localStorage.setItem('guestCart', JSON.stringify(updatedCart));
-    }
+if (existingItemIndex >= 0) {
+  updatedCart[existingItemIndex].quantity += 1;
+} else {
+  updatedCart.push({ product: product, quantity: 1 });
+}
+setGuestCart(updatedCart);
+localStorage.setItem('guestCart', JSON.stringify(updatedCart));
   };
 
   const removeFromCart = async (productId) => {
