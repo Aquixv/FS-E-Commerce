@@ -1,3 +1,4 @@
+const { cloudinary } = require('../cloudinary');
 const Product = require('../models/Product');
 
 const getProducts = async (req, res) => {
@@ -98,5 +99,55 @@ const getSingleProduct = async (req, res) => {
     res.status(500).json({ message: "Server error fetching product" });
   }
 };
+const createProduct = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Product image is required" });
+    }
+    const { title, price, description, category, stock } = req.body;
+    const streamUpload = (req) => {
+      return new Promise((resolve, reject) => {
+        let stream = cloudinary.uploader.upload_stream(
+          { 
+            folder: "ecommerce_products",
+            transformation: [{ width: 800, height: 800, crop: 'limit' }] 
+          },
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
+            }
+          }
+        );
+        stream.end(req.file.buffer); 
+      });
+    };
 
-module.exports = { getProducts, getProductsByCategory, getSingleProduct, createProductReview };
+    console.log("Uploading product image to Cloudinary...");
+    const result = await streamUpload(req);
+    console.log("✅ Cloudinary Success:", result.secure_url);
+
+    const product = new Product({
+      user: req.user._id,
+      title,
+      price,
+      description,
+      category,
+      stock,
+      thumbnail: result.secure_url, 
+      brand: "Independent Seller", 
+      rating: 0,
+      numReviews: 0,
+      discountPercentage: 0
+    });
+    const createdProduct = await product.save();
+    
+    res.status(201).json(createdProduct);
+
+  } catch (error) {
+    console.error("🚨 Create Product Error:", error);
+    res.status(500).json({ message: "Error creating product" });
+  }
+};
+module.exports = { getProducts, getProductsByCategory, getSingleProduct, createProductReview, createProduct };

@@ -16,6 +16,7 @@ const Seller = () => {
   const [category, setCategory] = useState('Tech');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   
@@ -82,12 +83,51 @@ const Seller = () => {
     navigate('/login');
   };
 
-  const handleProductSubmit = (e) => {
-    e.preventDefault();
+  const handleProductSubmit = async (e) => {
+   e.preventDefault();
     
-    console.log("Ready!:");
-    console.log({ title, price, stock, category, description, image });
-    
+    if (!image) {
+      alert("Please upload a product image!");
+      return;
+    }
+
+    setIsPublishing(true);
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('price', price);
+    formData.append('stock', stock);
+    formData.append('category', category);
+    formData.append('description', description);
+    formData.append('image', image);
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/products`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+          // NO Content-Type header here! The browser handles it automatically for FormData.
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Product published successfully!");
+        setTitle('');
+        setPrice('');
+        setStock('');
+        setDescription('');
+        setImage(null);
+      } else {
+        alert(data.message || "Failed to publish product");
+      }
+    } catch (error) {
+      console.error("Publish error:", error);
+      alert("Something went wrong hitting the server.");
+    } finally {
+      setIsPublishing(false);
+    }
   };
   if (!profile) return <div style={{ padding: '100px 20px', textAlign: 'center' }}>Loading your profile...</div>;
 
@@ -106,8 +146,8 @@ const Seller = () => {
           </div>
 
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <button onClick={() => setActiveTab('myProducts')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'myProducts' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'6vw', height:'4vh', marginBottom:'-12px' }}  src="https://www.svgrepo.com/show/520561/box-open.svg" alt="" /> My Products</button>
-            <button onClick={() => setActiveTab('addProduct')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'addProduct' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'4vh', marginBottom:'-12px'}}  src="https://www.svgrepo.com/show/532994/plus.svg" alt="" /> Add New Product</button>
+            <button onClick={() => setActiveTab('myProducts')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'myProducts' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'5vw', height:'3vh', marginBottom:'-6px' }}  src="https://www.svgrepo.com/show/520561/box-open.svg" alt="" /> My Products</button>
+            <button onClick={() => setActiveTab('addProduct')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'addProduct' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }}  src="https://www.svgrepo.com/show/532994/plus.svg" alt="" /> Add New Product</button>
             <button onClick={() => setActiveTab('analytics')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'analytics' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }}  src="https://www.svgrepo.com/show/404805/bar-chart.svg" alt="" /> Store Analytics</button>
             <Link to="/account" style={{ textDecoration: 'none', marginTop: '20px' }}>
               <button style={{ width: '100%', padding: '12px 15px', textAlign: 'left', background: '#e3f2fd', color: '#1976d2', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}> 🔄 Switch to Buying</button>
@@ -192,7 +232,7 @@ const Seller = () => {
                   ></textarea>
                 </div>
 
-                <div>
+                {/* <div>
                   <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>Product Image</label>
                   <input 
                     type="file" 
@@ -201,11 +241,37 @@ const Seller = () => {
                     onChange={(e) => setImage(e.target.files[0])}
                     style={{ width: '100%', padding: '10px', background: '#f9f9f9', borderRadius: '5px', border: '1px dashed #ccc' }} 
                   />
+                </div> */}
+<div>
+                  <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>Product Image</label>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    required
+                    onChange={(e) => setImage(e.target.files[0])}
+                    style={{ width: '100%', padding: '10px', background: '#f9f9f9', borderRadius: '5px', border: '1px dashed #ccc' }} 
+                  />
+                  {image && (
+                    <div style={{ marginTop: '10px' }}>
+                      <img 
+                        src={URL.createObjectURL(image)} 
+                        alt="Preview" 
+                        style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} 
+                      />
+                    </div>
+                  )}
                 </div>
 
-                <button type="submit" style={{ padding: '12px', background: '#000', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px' }}>
-                  Publish Product
+                <button 
+                  type="submit" 
+                  disabled={isPublishing}
+                  style={{ padding: '12px', background: '#000', color: '#fff', border: 'none', borderRadius: '5px', cursor: isPublishing ? 'not-allowed' : 'pointer', fontWeight: 'bold', marginTop: '10px' }}
+                >
+                  {isPublishing ? 'Publishing to Store...' : 'Publish Product'}
                 </button>
+                {/* <button type="submit" style={{ padding: '12px', background: '#000', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontWeight: 'bold', marginTop: '10px' }}>
+                  Publish Product
+                </button> */}
               </form>
 
             </div>

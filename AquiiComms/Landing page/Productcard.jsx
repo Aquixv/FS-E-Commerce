@@ -103,7 +103,11 @@ const handleAddToCart = (e) => {
                 <span className="price">${product.price}</span>
               )}
           </div>
-          <p className="description">{product.description.substring(0, 50)}...</p>
+          <p className="description">
+  {product.description 
+    ? `${product.description.substring(0, 50)}...` 
+    : 'No description available.'}
+</p>
           <div className="rating" style={{ display: 'flex', alignItems: 'center', gap: '2px', marginBottom: '10px' }}>
             {[...Array(Math.round(product.rating))].map((_, i) => (
               <svg key={i} xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#000" className="bi bi-star-fill" viewBox="0 0 16 16">
