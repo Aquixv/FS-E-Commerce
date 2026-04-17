@@ -12,6 +12,7 @@ const { getProducts, getProductsByCategory, getSingleProduct, createProduct } = 
 const { createOrder } = require('../controllers/Ordercontroller');
 const { toggleFavorite, getFavorites } = require('../controllers/Usercontroller');
 const { upgradeToSeller } = require('../controllers/Authcontroller');
+const { getMyOrders } = require('../controllers/Ordercontroller');
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -129,6 +130,7 @@ router.post('/orders', protect, createOrder);
 router.post('/forgot-password', forgotPassword);
 router.put('/reset-password/:token', resetPassword);
 router.get('/favorites', protect, getFavorites);
+router.get('/orders', protect, getMyOrders);
 router.post('/favorites/:productId', protect, toggleFavorite);
 router.put('/profile/upgrade', protect, upgradeToSeller);
 // router.get('/users', protect, isAdmin, getAllUsers);

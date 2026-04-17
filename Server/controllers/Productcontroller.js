@@ -150,4 +150,31 @@ const createProduct = async (req, res) => {
     res.status(500).json({ message: "Error creating product" });
   }
 };
-module.exports = { getProducts, getProductsByCategory, getSingleProduct, createProductReview, createProduct };
+const getSellerProducts = async (req, res) => {
+  try {
+    const products = await Product.find({ user: req.user._id }).sort({ createdAt: -1 }); 
+    res.json(products);
+  } catch (error) {
+    console.error("Fetch seller products error:", error);
+    res.status(500).json({ message: "Server error fetching products" });
+  }
+};
+const deleteProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    if (product.user.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      return res.status(403).json({ message: "You can only delete your own products!" });
+    }
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ message: "Product removed successfully" });
+
+  } catch (error) {
+    console.error("Delete error:", error);
+    res.status(500).json({ message: "Server error deleting product" });
+  }
+};
+module.exports = { getProducts, getProductsByCategory, getSingleProduct, createProductReview, createProduct, getSellerProducts, deleteProduct };

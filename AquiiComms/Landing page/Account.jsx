@@ -10,6 +10,8 @@ const Account = () => {
   const [profile, setProfile] = useState(null);
   const [activeTab, setActiveTab] = useState('profile');
   const [isUpgrading, setIsUpgrading] = useState(false);
+  const [myOrders, setMyOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
   
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   
@@ -38,7 +40,27 @@ const Account = () => {
       setIsUpgrading(false);
     }
   };
-
+useEffect(() => {
+    if (activeTab === 'orders' && userInfo) {
+      const fetchOrders = async () => {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/orders`, {
+            headers: { Authorization: `Bearer ${userInfo.token}` }
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setMyOrders(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch orders", error);
+        } finally {
+          setLoadingOrders(false);
+        }
+      };
+      fetchOrders();
+    }
+  }, [activeTab, userInfo]);
+  
   useEffect(() => {
     if (!userInfo || !userInfo.token) {
       navigate('/login');
@@ -125,11 +147,54 @@ const Account = () => {
           )}
 
           {activeTab === 'orders' && (
-            <div style={{ textAlign: 'center', padding: '40px 0' }}>
-              <span style={{ fontSize: '4rem' }}> <img style={{ width:'10vw', height:'10vh' }} src="https://www.svgrepo.com/show/314988/shopping-bags.svg" alt="" /> </span>
-              <h3 style={{ margin: '20px 0 10px' }}>No orders yet</h3>
-              <p style={{ color: '#666', marginBottom: '20px' }}>When you buy something, it will appear here.</p>
-              <button style={{ padding: '10px 20px', background: '#000', color: '#fff', border: 'none', borderRadius: '20px', cursor: 'pointer' }}>Start Shopping</button>
+            <div>
+              <h2 style={{ marginBottom: '20px', borderBottom: '2px solid #f0f0f0', paddingBottom: '10px' }}>Order History</h2>
+              
+              {loadingOrders ? (
+                <div style={{ textAlign: 'center', padding: '40px 0' }}>Loading your orders...</div>
+              ) : myOrders.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                  <span style={{ fontSize: '4rem' }}> <img style={{ width:'10vw', height:'10vh' }} src="https://www.svgrepo.com/show/314988/shopping-bags.svg" alt="" /> </span>
+                  <h3 style={{ margin: '20px 0 10px' }}>No orders yet</h3>
+                  <p style={{ color: '#666', marginBottom: '20px' }}>When you buy something, it will appear here.</p>
+                  <Link to="/">
+                    <button style={{ padding: '10px 20px', background: '#000', color: '#fff', border: 'none', borderRadius: '20px', cursor: 'pointer' }}>Start Shopping</button>
+                  </Link>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  {myOrders.map(order => (
+                    <div key={order._id} style={{ border: '1px solid #eee', borderRadius: '8px', padding: '20px', background: '#fafafa' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: '10px', marginBottom: '15px' }}>
+                        <div>
+                          <span style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Order #{order._id.substring(order._id.length - 8).toUpperCase()}</span>
+                          <span style={{ display: 'block', fontSize: '0.85rem', color: '#666', marginTop: '4px' }}>
+                            {new Date(order.createdAt).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                          <span style={{ fontWeight: 'bold', color: '#4CAF50', fontSize: '1.1rem' }}>${order.totalPrice.toFixed(2)}</span>
+                          <span style={{ display: 'block', fontSize: '0.85rem', color: '#1976d2', marginTop: '4px', fontWeight: '500' }}>
+                            {order.isPaid ? 'Paid via Paystack' : 'Pending'}
+                          </span>
+                        </div>
+                      </div>
+                    
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        {order.orderItems.map((item, index) => (
+                          <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #eee' }} />
+                            <div>
+                              <p style={{ margin: '0', fontWeight: '500' }}>{item.name}</p>
+                              <p style={{ margin: '0', fontSize: '0.85rem', color: '#666' }}>Qty: {item.quantity} | ${item.price.toFixed(2)} each</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 

@@ -15,7 +15,10 @@ const Checkout = () => {
   });
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  const totalAmount = cart?.items?.reduce((total, item) => total + (item.product.price * item.quantity), 0) || 0;
+ const totalAmount = cart?.items?.reduce((total, item) => {
+    if (!item || !item.product || !item.product.price) return total;
+    return total + (item.product.price * item.quantity);
+  }, 0) || 0;
 
   const publicKey = "pk_test_aed41b8546b5826ba7e2d0c06029c6acc73ccbfa"; 
   const paystackProps = {
@@ -30,13 +33,15 @@ const Checkout = () => {
       console.log("💳 Paystack Success!", response);
       
       try {
-        const formattedItems = cart.items.map(item => ({
-          name: item.product.title, 
-          quantity: item.quantity,
-          image: item.product.thumbnail, 
-          price: item.product.price,
-          product: item.product._id
-        }));
+        const formattedItems = cart.items
+          .filter(item => item && item.product && item.product._id)
+          .map(item => ({
+            name: item.product.title, 
+            quantity: item.quantity,
+            image: item.product.thumbnail, 
+            price: item.product.price,
+            product: item.product._id
+          }));
 
         const res = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/orders`, {
           method: 'POST',
@@ -79,7 +84,6 @@ const Checkout = () => {
   const handleInputChange = (e) => {
     setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });
   };
-
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
       <div style={{ textAlign: 'center', marginTop: '50px' }}>
