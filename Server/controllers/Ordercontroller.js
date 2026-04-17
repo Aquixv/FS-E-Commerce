@@ -1,5 +1,6 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
+const Product = require('../models/Product');
 
 const createOrder = async (req, res) => {
   try {
@@ -40,5 +41,31 @@ const getMyOrders = async (req, res) => {
     res.status(500).json({ message: "Server error fetching orders" });
   }
 };
+const getSellerRevenue = async (req, res) => {
+  try {
+    const sellerProducts = await Product.find({ user: req.user._id }).select('_id');
+    const productIds = sellerProducts.map(p => p._id.toString());
+    const allOrders = await Order.find({});
 
-module.exports = { createOrder, getMyOrders };
+    let totalRevenue = 0;
+    let totalItemsSold = 0;
+
+    allOrders.forEach(order => {
+      if (order.isPaid) {
+        order.orderItems.forEach(item => {
+          if (productIds.includes(item.product.toString())) {
+            totalRevenue += (item.price * item.quantity);
+            totalItemsSold += item.quantity;
+          }
+        });
+      }
+    });
+
+    res.json({ totalRevenue, totalItemsSold });
+
+  } catch (error) {
+    console.error("Revenue calculation error:", error);
+    res.status(500).json({ message: "Server error calculating revenue" });
+  }
+};
+module.exports = { createOrder, getMyOrders, getSellerRevenue };

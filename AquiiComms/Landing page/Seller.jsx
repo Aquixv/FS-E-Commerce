@@ -19,6 +19,8 @@ const Seller = () => {
   const [isPublishing, setIsPublishing] = useState(false);
   const [myProducts, setMyProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const [revenueData, setRevenueData] = useState({ totalRevenue: 0, totalItemsSold: 0 });
+  const [loadingAnalytics, setLoadingAnalytics] = useState(true);
 
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
   
@@ -67,6 +69,27 @@ useEffect(() => {
       fetchMyProducts();
     }
   }, [activeTab, userInfo]);
+  useEffect(() => {
+    if (activeTab === 'analytics' && userInfo) {
+      const fetchAnalytics = async () => {
+        try {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/orders/revenue`, {
+            headers: { Authorization: `Bearer ${userInfo.token}` }
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setRevenueData(data);
+          }
+        } catch (error) {
+          console.error("Failed to fetch analytics", error);
+        } finally {
+          setLoadingAnalytics(false);
+        }
+      };
+      fetchAnalytics();
+    }
+  }, [activeTab, userInfo]);
+
   useEffect(() => {
     if (!userInfo || !userInfo.token) {
       navigate('/login');
@@ -347,10 +370,26 @@ useEffect(() => {
           {activeTab === 'analytics' && (
             <div>
               <h2 style={{ marginBottom: '20px', borderBottom: '2px solid #f0f0f0', paddingBottom: '10px' }}>Store Analytics</h2>
-              <div style={{ padding: '40px', background: '#f9f9f9', borderRadius: '10px', textAlign: 'center' }}>
-                <h1 style={{ fontSize: '3rem', margin: '0' }}>$0.00</h1>
-                <p style={{ color: '#666', margin: '5px 0 0' }}>Total Revenue</p>
-              </div>
+              
+              {loadingAnalytics ? (
+                <div style={{ textAlign: 'center', padding: '40px 0' }}> <img style={{width:'40vw', height:'60vh'}} src="https://th.bing.com/th/id/OIP.vlRhlnh4-SKa6GVtYgJaHgAAAA?w=246&h=135&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3" alt="" /> </div>
+              ) : (
+                <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                  <div style={{ flex: '1', minWidth: '200px', padding: '40px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', textAlign: 'center' }}>
+                    <h1 style={{ fontSize: '3.5rem', margin: '0', color: '#166534' }}>
+                      ${revenueData.totalRevenue.toFixed(2)}
+                    </h1>
+                    <p style={{ color: '#15803d', margin: '5px 0 0', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Total Revenue</p>
+                  </div>
+                  <div style={{ flex: '1', minWidth: '200px', padding: '40px', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '10px', textAlign: 'center' }}>
+                    <h1 style={{ fontSize: '3.5rem', margin: '0', color: '#1e40af' }}>
+                      {revenueData.totalItemsSold}
+                    </h1>
+                    <p style={{ color: '#1d4ed8', margin: '5px 0 0', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Items Sold</p>
+                  </div>
+
+                </div>
+              )}
             </div>
           )}
 
