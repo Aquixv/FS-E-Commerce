@@ -376,7 +376,7 @@ useEffect(() => {
               ) : (
                 <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
                   <div style={{ flex: '1', minWidth: '200px', padding: '40px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '3.5rem', margin: '0', color: '#166534' }}>
+                    <h1 style={{ fontSize: '3.0rem', margin: '0', color: '#166534' }}>
                       ${revenueData.totalRevenue.toFixed(2)}
                     </h1>
                     <p style={{ color: '#15803d', margin: '5px 0 0', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Total Revenue</p>
