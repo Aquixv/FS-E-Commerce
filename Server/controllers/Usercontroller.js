@@ -30,5 +30,15 @@ const getFavorites = async (req, res) => {
     res.status(500).json({ message: "Server error fetching favorites" });
   }
 };
+const getAllUsers = async (req, res) => {
+  try {
+ 
+    const users = await User.find({}).select('-password');
+    res.json(users);
+  } catch (error) {
+    console.error("Fetch all users error:", error);
+    res.status(500).json({ message: "Server error fetching users" });
+  }
+};
 
-module.exports = { toggleFavorite, getFavorites };
+module.exports = { toggleFavorite, getFavorites, getAllUsers };

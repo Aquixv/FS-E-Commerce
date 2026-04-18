@@ -14,6 +14,7 @@ const { toggleFavorite, getFavorites } = require('../controllers/Usercontroller'
 const { upgradeToSeller } = require('../controllers/Authcontroller');
 const { getMyOrders } = require('../controllers/Ordercontroller');
 const { getSellerRevenue } = require('../controllers/Ordercontroller');
+const { getAllUsers } = require('../controllers/Usercontroller')
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
@@ -135,6 +136,6 @@ router.get('/orders', protect, getMyOrders);
 router.post('/favorites/:productId', protect, toggleFavorite);
 router.put('/profile/upgrade', protect, upgradeToSeller);
 router.get('/orders/revenue', protect, isSeller, getSellerRevenue);
-// router.get('/users', protect, isAdmin, getAllUsers);
+router.get('/users', protect, isAdmin, getAllUsers);
 // router.post('/products', protect, isSeller, upload.single('image'), createProduct);
 module.exports = router;
