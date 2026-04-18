@@ -44,7 +44,32 @@ const AdminDashboard = () => {
     logout();
     navigate('/login');
   };
+const handleRoleChange = async (userId, newRole) => {
+    if (!window.confirm(`Are you sure you want to change this user to ${newRole}?`)) return;
 
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/auth/users/${userId}/role`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`
+        },
+        body: JSON.stringify({ role: newRole })
+      });
+
+      if (response.ok) {
+        setAllUsers(allUsers.map(user => 
+          user._id === userId ? { ...user, role: newRole } : user
+        ));
+      } else {
+        const data = await response.json();
+        alert(data.message || "Failed to update role");
+      }
+    } catch (error) {
+      console.error("Role update error:", error);
+      alert("Something went wrong updating the database.");
+    }
+  };
   return (
     <div style={{ minHeight: '80vh', padding: '60px 5%', backgroundColor: '#f8f9fa' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', gap: '30px', flexWrap: 'wrap' }}>
@@ -88,8 +113,11 @@ const AdminDashboard = () => {
                       {allUsers.map(user => (
                         <tr key={user._id} style={{ borderBottom: '1px solid #eee' }}>
                           <td style={{ padding: '12px', color: '#666', fontSize: '0.85rem' }}>{user._id.substring(user._id.length - 6)}</td>
+                          
                           <td style={{ padding: '12px', fontWeight: '500' }}>{user.name}</td>
+                          
                           <td style={{ padding: '12px' }}>{user.email}</td>
+
                           <td style={{ padding: '12px' }}>
                             <span style={{ 
                               padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 'bold',
@@ -100,7 +128,16 @@ const AdminDashboard = () => {
                             </span>
                           </td>
                           <td style={{ padding: '12px' }}>
-                            <button style={{ padding: '6px 12px', background: '#000', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '0.8rem' }}>Edit Role</button>
+                            <select 
+                              value={user.role} 
+                              onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                              disabled={user._id === userInfo._id}
+                              style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: user._id === userInfo._id ? 'not-allowed' : 'pointer' }}
+                            >
+                              <option value="customer">Customer</option>
+                              <option value="seller">Seller</option>
+                              <option value="admin">Admin</option>
+                            </select>
                           </td>
                         </tr>
                       ))}

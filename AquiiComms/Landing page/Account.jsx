@@ -117,10 +117,12 @@ useEffect(() => {
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <button onClick={() => setActiveTab('profile')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'profile' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/512729/profile-round-1342.svg" alt="" /> My Profile</button>
             <button onClick={() => setActiveTab('orders')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'orders' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/301014/boxes.svg" alt="" /> Order History</button>
-            <button onClick={() => setActiveTab('settings')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'settings' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/527439/settings.svg" alt="" /> Settings</button>
+            <button onClick={() => setActiveTab('selling')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'selling' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> 
+  <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/147833/three-dollars-bills.svg" alt="" /> 
+  {profile.role === 'admin' ? ' Admin' : profile.role === 'seller' ? ' Seller Dashboard' : 'Selling'}
+</button>
+<button onClick={() => setActiveTab('settings')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'settings' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/527439/settings.svg" alt="" /> Settings</button>
 
-            <button onClick={() => setActiveTab('selling')} style={{ padding: '12px 15px', textAlign: 'left', background: activeTab === 'selling' ? '#f0f0f0' : 'transparent', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', transition: '0.2s' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/147833/three-dollars-bills.svg" alt="" /> Selling</button>
-            
             <button onClick={handleLogout} style={{ padding: '12px 15px', textAlign: 'left', background: '#fff0f0', color: '#d32f2f', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', marginTop: '20px' }}> <img style={{ width:'4vw', height:'2vh' }} src="https://www.svgrepo.com/show/472582/door-open.svg" alt="" /> Log Out</button>
           </nav>
         </div>

@@ -40,5 +40,26 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ message: "Server error fetching users" });
   }
 };
+const updateUserRole = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
 
-module.exports = { toggleFavorite, getFavorites, getAllUsers };
+    if (user) {
+      user.role = req.body.role || user.role;
+      
+      const updatedUser = await user.save();
+      
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        role: updatedUser.role,
+      });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Update role error:", error);
+    res.status(500).json({ message: "Server error updating role" });
+  }
+};
+module.exports = { toggleFavorite, getFavorites, getAllUsers, updateUserRole };
