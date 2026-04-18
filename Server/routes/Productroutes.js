@@ -1,12 +1,14 @@
 const express = require('express');
-const { protect, isSeller } = require('../middleware/authMiddleware'); 
+const { protect, isSeller, isAdmin } = require('../middleware/authMiddleware'); 
 const router = express.Router();
 const { createProductReview } = require('../controllers/Productcontroller');
 const { getProducts, getProductsByCategory, getSingleProduct, createProduct } = require('../controllers/Productcontroller');
 const { getSellerProducts } = require('../controllers/Productcontroller');
 const { deleteProduct } = require('../controllers/Productcontroller');
 const { upload, cloudinary } = require('../cloudinary');
+const { getAdminProducts } = require('../controllers/Productcontroller');
 
+router.get('/all', protect, isAdmin, getAdminProducts);
 router.get('/', getProducts);
 router.get('/mine', protect, isSeller, getSellerProducts);
 router.get('/category/:category', getProductsByCategory);

@@ -21,6 +21,7 @@ import Favorites from '../Landing page/Favorites';
 import { FavoritesProvider } from './FavoritesContext';
 import Seller from '../Landing page/Seller';
 import AdminDashboard from './AdminDashboard';
+import ProductManager from './ProductManager';
 function App() {
   return (
   <AuthProvider>
@@ -52,6 +53,7 @@ function App() {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/seller-dashboard" element={<Seller />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/products" element={<ProductManager />} />
         </Routes>
       </main>
 

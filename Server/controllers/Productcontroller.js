@@ -177,4 +177,16 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ message: "Server error deleting product" });
   }
 };
-module.exports = { getProducts, getProductsByCategory, getSingleProduct, createProductReview, createProduct, getSellerProducts, deleteProduct };
+const getAdminProducts = async (req, res) => {
+  try {
+    const products = await Product.find({})
+      .populate('user', 'name email')
+      .sort({ createdAt: -1 });
+      
+    res.json(products);
+  } catch (error) {
+    console.error("Fetch all products error:", error);
+    res.status(500).json({ message: "Server error fetching global inventory" });
+  }
+};
+module.exports = { getProducts, getProductsByCategory, getSingleProduct, createProductReview, createProduct, getSellerProducts, deleteProduct,getAdminProducts };

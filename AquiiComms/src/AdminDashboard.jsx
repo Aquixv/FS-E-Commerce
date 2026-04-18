@@ -148,7 +148,17 @@ const handleRoleChange = async (userId, newRole) => {
             </div>
           )}
 
-          {activeTab === 'inventory' && <h2>Global Inventory Coming Soon...</h2>}
+          {activeTab === 'inventory' && (
+            <div style={{ textAlign: 'center', padding: '50px 0' }}>
+              <h2 style={{ marginBottom: '20px' }}>Global Product Management</h2>
+              <p style={{ color: '#666', marginBottom: '30px' }}>Search, filter, and moderate every product listed on the platform.</p>
+              <Link to="/admin/products">
+                <button style={{ padding: '15px 30px', background: '#3498db', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 'bold', cursor: 'pointer' }}>
+                  Launch Product Manager
+                </button>
+              </Link>
+            </div>
+          )}
           {activeTab === 'analytics' && <h2>Platform Analytics Coming Soon...</h2>}
 
         </div>
