@@ -13,7 +13,7 @@ const Deals = () => {
   return (
     <section className="product-section" style={{ paddingTop: '40px', minHeight: '80vh' }}>
       <div className="section-header">
-        <h2>🔥 Today's Best Deals</h2>
+        <h2><img style={{width:'4vw', height:'4vh'}} src="https://www.svgrepo.com/show/506715/fire.svg" alt="" /> Today's Best Deals</h2>
       </div>
       <div className="product-grid page-grid">
         {products.map(product => (

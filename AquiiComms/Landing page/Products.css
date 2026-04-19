@@ -178,5 +178,7 @@ text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis; 
   }
-  
+    .section-header img{
+display: none;
+}
 }
