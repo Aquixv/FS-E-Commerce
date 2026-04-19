@@ -70,7 +70,7 @@ const ProductManager = () => {
             <p style={{ color: '#666', margin: '5px 0 0' }}>Total Products: {products.length}</p>
           </div>
           
-          <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '15px', alignItems: 'center', flexWrap: 'wrap' }}>
             <input 
               type="text" 
               placeholder="Search by title or seller..." 

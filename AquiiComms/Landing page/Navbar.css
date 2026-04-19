@@ -12,8 +12,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 100%;
-  margin: 0 auto;
+  max-width: 1400px; /* CHANGED: The Magic Bounding Box */
+  width: 100%;       /* ADDED: Ensures it fills smaller screens */
+  margin: 0 auto;    /* Centers the box on giant monitors */
   padding: 0 4%; 
   height: 80px;
 }
@@ -34,7 +35,7 @@ height: 8vh;
   flex: 2;
   justify-content: center;
   align-items: center;
-  gap: 40px;
+  gap: 2vw; 
 }
 .nav-links a{
 text-decoration: none;
