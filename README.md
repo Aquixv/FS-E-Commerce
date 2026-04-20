@@ -45,5 +45,5 @@ A full-stack, multi-role e-commerce platform built with the MERN stack. Popcart 
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/yourusername/popcart.git](https://github.com/yourusername/popcart.git)
+   git clone [https://github.com/yourusername/popcart.git](https://github.com/Aquixv/FS-E-Commerce.git)
    cd popcart
