@@ -44,6 +44,32 @@ A full-stack, multi-role e-commerce platform built with the MERN stack. Popcart 
 ### Installation
 
 1. **Clone the repository**
-   ```bash
    git clone [https://github.com/yourusername/popcart.git](https://github.com/Aquixv/FS-E-Commerce.git)
    cd popcart
+   
+ 2  **Setup the Backend**
+      cd backend
+      npm install
+      Create a .env file in the backend directory and add your keys:
+
+    PORT=5000
+    MONGO_URI=your_mongodb_connection_string
+    JWT_SECRET=your_jwt_secret
+    CLOUDINARY_CLOUD_NAME=your_cloud_name
+    CLOUDINARY_API_KEY=your_api_key
+    CLOUDINARY_API_SECRET=your_api_secret
+    Start the server: install nodemon and run nodemon index/server.js(What you choose to name your main file)
+    npm run dev
+    
+**Setup the Frontend**
+cd frontend
+npm install
+Create a .env file in the frontend directory:
+
+Code snippet
+VITE_API_URL=http://localhost:5000/api
+VITE_PAYSTACK_PUBLIC_KEY=your_paystack_public_key
+Start the client:
+
+Bash
+npm run dev
